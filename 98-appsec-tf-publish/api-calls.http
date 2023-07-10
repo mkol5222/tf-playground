@@ -1,6 +1,8 @@
 
 # local pwsh: $env:appsecClientId="aaa"; $env:appsecAccessKey="bbb"; code .
 
+# playground: https://portal.checkpoint.com/dashboard/policy#/support/api/
+
 # @name login
 
 @clientId = {{$processEnv appsecClientId}}
