@@ -22,3 +22,8 @@ cd ~
 wget "https://releases.hashicorp.com/terraform/"$VERSION"/terraform_"$VERSION"_linux_amd64.zip"
 unzip "terraform_"$VERSION"_linux_amd64.zip"
 sudo install terraform /usr/local/bin/
+
+alias tf=terraform
+
+# https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
