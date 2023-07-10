@@ -1,0 +1,11 @@
+{
+    "name": "tf-playground",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-docker"
+    ],
+    "postCreateCommand": "/bin/bash ./.devcontainer/post-install.sh"
+}
