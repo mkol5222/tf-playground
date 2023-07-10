@@ -1,0 +1,79 @@
+
+@cpserver = mtest1-yz2drni1.maas.checkpoint.com
+@cpid = 5f3d5495-6259-4434-83fa-3dd43ef249db
+# local pwsh: $env:CPKEY='zyz=='; code .
+@cpkey = {{$processEnv CPKEY}}
+
+# @name login
+POST https://{{cpserver}}/{{cpid}}/web_api/login
+Content-Type: application/json
+
+{
+  "api-key": "{{cpkey}}"
+}
+
+###
+POST https://{{cpserver}}/{{cpid}}/web_api/show-hosts
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{}
+###
+# @name layers
+POST https://{{cpserver}}/{{cpid}}/web_api/show-access-layers
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{}
+###
+
+POST https://{{cpserver}}/{{cpid}}/web_api/show-access-layer
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{"uid": "{{layers.response.body.access-layers[0].uid}}"}
+###
+
+POST https://{{cpserver}}/{{cpid}}/web_api/show-access-rulebase
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "offset" : 0,
+  "limit" : 20,
+  "name" : "Network",
+  "details-level" : "full",
+  "use-object-dictionary" : true
+}
+
+###
+# @name taskChanges
+POST https://{{cpserver}}/{{cpid}}/web_api/show-changes
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "offset" : 0,
+  "limit" : 20,
+  "details-level" : "full"
+}
+
+###
+POST https://{{cpserver}}/{{cpid}}/web_api/show-task
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "task-id": "{{taskChanges.response.body.task-id}}",
+  "details-level": "full"
+}
+
+###
+POST https://{{cpserver}}/{{cpid}}/web_api/show-task
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "task-id": "{{taskChanges.response.body.task-id}}",
+  "details-level": "standard"
+}
