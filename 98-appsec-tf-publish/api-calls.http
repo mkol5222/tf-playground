@@ -1,0 +1,81 @@
+
+# local pwsh: $env:appsecClientId="aaa"; $env:appsecAccessKey="bbb"; code .
+
+# @name login
+
+@clientId = {{$processEnv appsecClientId}}
+@accessKey = {{$processEnv appsecAccessKey}}
+
+POST https://cloudinfra-gw.portal.checkpoint.com/auth/external
+content-type: application/json
+
+{"clientId":"{{clientId}}" ,"accessKey":"{{accessKey}}" }
+
+###
+@authToken = {{login.response.body.data.token}}
+
+POST https://cloudinfra-gw.portal.checkpoint.com/app/i2/graphql/V1
+authorization: Bearer {{authToken}}
+content-type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  newKubernetesProfile(profileInput: {
+    name: "Kub123d"
+    profileSubType: AppSec
+  }) {
+    id
+  }
+}
+###
+
+@authToken = {{login.response.body.data.token}}
+# @name publish
+POST https://cloudinfra-gw.portal.checkpoint.com/app/i2/graphql/V1
+authorization: Bearer {{authToken}}
+content-type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+ publishChanges {
+    isValid
+    errors {
+        id type subType name message 
+    }
+    warnings {
+        id type subType name message
+    }
+ }
+}
+###
+@authToken = {{login.response.body.data.token}}
+# @name getProfiles
+POST https://cloudinfra-gw.portal.checkpoint.com/app/i2/graphql/V1
+authorization: Bearer {{authToken}}
+content-type: application/json
+X-REQUEST-TYPE: GraphQL
+
+{
+    getProfiles(matchSearch:"Kub1") 
+	{
+        name id objectStatus
+    }
+}
+
+###
+@authToken = {{login.response.body.data.token}}
+# @name getAssets
+POST https://cloudinfra-gw.portal.checkpoint.com/app/i2/graphql/V1
+authorization: Bearer {{authToken}}
+content-type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ExampleQuery {
+  getAssets {
+    status
+      assets {
+        id
+        name
+      }
+  }
+}
