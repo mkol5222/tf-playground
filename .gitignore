@@ -33,3 +33,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 03-lambda/src/fn-python.zip
+fingerprints.json
+sid.json
