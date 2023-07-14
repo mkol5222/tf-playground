@@ -32,3 +32,9 @@
 #     to = checkpoint_management_host.martin_import
 #     id = "martin-import"
 # }
+
+resource "checkpoint_management_host" "h40" {
+  name         = "h40"
+  ipv4_address = "192.0.2.241"
+  color = "blue"
+}

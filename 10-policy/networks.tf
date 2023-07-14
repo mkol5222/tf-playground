@@ -6,6 +6,6 @@ resource "checkpoint_management_network" "vnet42" {
 }
 
 import {
-    to = checkpoint_management_network.net_import
-    id = "net-import"
+    to = checkpoint_management_network.vnet43
+    id = "vnet_43"
 }
