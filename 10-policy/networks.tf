@@ -5,7 +5,7 @@ resource "checkpoint_management_network" "vnet42" {
   color = "cyan"
 }
 
-import {
-    to = checkpoint_management_network.vnet43
-    id = "vnet_43"
-}
+# import {
+#     to = checkpoint_management_network.vnet43
+#     id = "vnet_43"
+# }
