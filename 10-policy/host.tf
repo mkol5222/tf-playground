@@ -35,6 +35,6 @@
 
 resource "checkpoint_management_host" "h40" {
   name         = "h40"
-  ipv4_address = "192.0.2.241"
+  ipv4_address = "192.0.2.246"
   color = "blue"
 }
