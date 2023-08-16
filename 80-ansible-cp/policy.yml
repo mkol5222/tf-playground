@@ -2,7 +2,6 @@
 - name: CP management policy
   hosts: check_point
   connection: httpapi
-  
   tasks:
   - name: set-host
     cp_mgmt_host:
@@ -10,6 +9,7 @@
       ipv4_address: 192.0.2.2
       name: AnsibleHost1
       state: present
+
   - name: add-host
     cp_mgmt_host:
       ip_address: 192.0.2.1
