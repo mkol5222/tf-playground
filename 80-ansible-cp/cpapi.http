@@ -1,0 +1,37 @@
+@mgmthost={{$processEnv TF_VAR_MGMTHOST}}
+@server=https://{{mgmthost}}/web_api
+
+@user={{$processEnv TF_VAR_MGMTUSER}}
+@password={{$processEnv TF_VAR_MGMTPASS}}
+
+# @name login1
+POST {{server}}/login
+Content-Type: application/json
+
+{ "user": "{{user}}", "password": "{{password}}" }
+###
+
+# @name login2
+
+@cpserver = {{$processEnv TF_VAR_CPSERVER}}
+@cpid = {{$processEnv TF_VAR_CPID}}
+@cpkey = {{$processEnv TF_VAR_CPKEY}}
+
+POST https://{{cpserver}}/{{cpid}}/web_api/login
+Content-Type: application/json
+
+{
+   "api-key": "{{cpkey}}"
+}
+
+###
+
+@sid = {{login1.response.body.sid}}
+
+###
+POST {{server}}/show-networks
+Content-Type: application/json
+X-chkp-sid: {{sid}}
+
+{
+}

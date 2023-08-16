@@ -1,8 +1,8 @@
 
-@cpserver = mtest1-yz2drni1.maas.checkpoint.com
-@cpid = 5f3d5495-6259-4434-83fa-3dd43ef249db
+@cpserver =  {{$processEnv TF_VAR_CPSERVER}}
+@cpid =  {{$processEnv TF_VAR_CPID}}
 # local pwsh: $env:CPKEY='zyz=='; code .
-@cpkey = {{$processEnv CPKEY}}
+@cpkey =  {{$processEnv TF_VAR_CPKEY}}
 
 # @name login
 POST https://{{cpserver}}/{{cpid}}/web_api/login
