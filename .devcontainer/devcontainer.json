@@ -1,5 +1,9 @@
 {
     "name": "tf-playground",
+    "image": "mcr.microsoft.com/devcontainers/base:jammy",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
     },
