@@ -45,6 +45,7 @@ Focus on admin_password, sic_key and smart_1_cloud_token in terraform.tfvars
 ```bash
 cd /workspaces/tf-playground/12-cp-tf-repo/CloudGuardIaaS/terraform/azure/single-gateway-new-vnet/
 terraform init
+terraform plan
 terraform apply
 
 terraform destroy
