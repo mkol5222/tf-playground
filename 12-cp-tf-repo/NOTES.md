@@ -16,11 +16,12 @@ code README.md
 
 Consider Smart-1 Cloud and get new gateway S1C token: https://portal.checkpoint.com/dashboard/smart-1cloud#/gateways-connection 
 
-Copy Example to terraform.tfvars
+Copy Example from README.md to terraform.tfvars
 
 [AZ SP for TF](https://gist.github.com/mkol5222/2e48e283c96fd6958583b4c828e09624)
 ```shell
 az login
+az account list -o table
 # create and cut&paste to terraform.tfvars
 # create and note deployment credentials, where relevant
 SUBSCRIPTION_ID=$(az account list -o json | jq -r '.[]|select(.isDefault)|.id')
