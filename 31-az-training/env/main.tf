@@ -166,11 +166,7 @@ resource "azurerm_subnet_route_table_association" "aks-rt-to-subnet" {
   route_table_id = azurerm_route_table.aks-rt.id
 }
 
-variable "route_through_firewall" {
-    type = bool
-    default = false
-  
-}
+
 
 variable "virtual_network_name" {
   default = "vnet1"

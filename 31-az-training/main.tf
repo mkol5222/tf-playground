@@ -1,5 +1,7 @@
 module "env" {
     source = "./env"
+
+    route_through_firewall = false
 }
 
 module "standalone-chkp" {
@@ -31,4 +33,16 @@ module "ubuntu1" {
   linux-subnet-name    = "linux-subnet"
   virtual_network_name = module.env.virtual_network_name
   vm_name              = "ubuntu1"
+}
+
+output "ssh_key" {
+    value = module.ubuntu1.ssh_key
+    sensitive = true
+}
+output "ssh_key_pub" {
+    value = module.ubuntu1.ssh_key_pub
+    sensitive = true
+}
+output "ssh_config" {
+    value = module.ubuntu1.ssh_config
 }
