@@ -6,6 +6,10 @@ under https://portal.azure.com/#view/HubsExtension/BrowseResourceGroups
 
 ```bash
 az login
+# or 
+az login --use-device-code
+
+# check
 az account list -o table
 ```
 
