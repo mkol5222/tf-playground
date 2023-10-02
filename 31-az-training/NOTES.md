@@ -45,3 +45,12 @@ ssh ubuntu1
 # remember to remove resources
 terraform destroy
 ```
+Consider ~/.ssh/config for CP
+```bash
+cat << EOF >> ~/.ssh/config
+Host labcp
+   HostName 20.109.190.222
+   User admin
+   PubkeyAuthentication no
+EOF
+```
