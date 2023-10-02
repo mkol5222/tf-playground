@@ -1,7 +1,7 @@
 module "env" {
     source = "./env"
 
-    route_through_firewall = false
+    route_through_firewall = var.route_through_firewall
 }
 
 module "standalone-chkp" {
