@@ -1,6 +1,6 @@
 module "env" {
     source = "./env"
-
+    resource_group_name = var.rg
     route_through_firewall = var.route_through_firewall
 }
 
