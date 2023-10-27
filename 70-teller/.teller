@@ -1,0 +1,5 @@
+providers:
+  azure_keyvault:
+    env:
+      DB_PASS:
+        path: db-pwd
