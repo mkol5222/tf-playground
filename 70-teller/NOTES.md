@@ -28,7 +28,7 @@ teller new
 
 project: 70-teller
 
-cat << EOF | tee .teller
+cat << EOF | tee .teller.yml
 providers:
   azure_keyvault:
     env:
@@ -36,7 +36,7 @@ providers:
         path: db-pwd
 EOF
 
-cat .teller
+cat .teller.yml
 
 cd /workspaces/tf-playground/70-teller/tf-keyvault
 tf init
