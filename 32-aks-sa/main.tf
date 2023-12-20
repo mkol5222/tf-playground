@@ -18,6 +18,15 @@ output "kubeconfig_data" {
   value     = module.aks.kubeconfig_data
   sensitive = true
 }
+output "sa_token" {
+  value = module.sa.sa_token
+  sensitive = true
+}
+
+output "api_server" {
+  sensitive = true
+  value = module.aks.kubeconfig_data[0]["host"]
+}
 
 terraform {
   required_providers {

@@ -5,13 +5,50 @@
 * define Service Account for CHKP CG Controller Datacenter Server (K8S) using TF
 * test provided SA
 
+### Usage
+Open this as Github Codespace in VS Code Desktop and continue with commands:
+```shell
+# work in right context
+cd /workspaces/tf-playground/32-aks-sa
+
+# login to your Azure account
+az login
+# review
+az account list -o table
+
+# deploy test AKS cluster and CG Controller SA using TF
+terraform init
+# review and deploy
+terraform apply
+
+# no we have AKS cluster and SA for CG Controller usage
+
+# our cluster
+az aks list -o table
+az aks get-credentials --resource-group aks-sa-rg  --name aks-sa-cluster
+kubectl get no
+kubectl get ns
+
+# Service account for CG Controller
+# now terraform has both SA token and API URL in outputs
+terraform output -raw sa_token
+terraform output -raw api_server
+
+# lets use it
+T=$(terraform output -raw sa_token)
+APISERVER=$(terraform output -raw api_server)
+
+curl -s $APISERVER/api/v1/namespaces/kube-system/pods/  --header "Authorization: Bearer $T" -k
+```
+
 ### AKS: TF module deploying test cluster to new VNET
-
-
+* implemented in ./32-aks-sa/aks
 
 ### SA: TF module creating CG Controller SA using TF
+* implemented in ./32-aks-sa/sa-k8s - look in cgcsa.tf
 
 ### Call AKS (K8S) API to list objects using SA token
+* below
 
 ### After deployment
 
