@@ -13,9 +13,13 @@
 
 ### Call AKS (K8S) API to list objects using SA token
 
+### After deployment
+
 Once AKS is deployed, this is how to get kubectl access:
 ```shell
 az aks list -o table
 az aks get-credentials --resource-group aks-sa-rg  --name aks-sa-cluster
-```
+kubectl get no
+kubectl get ns
+# should show my-first-namespace created with TF
 ```
