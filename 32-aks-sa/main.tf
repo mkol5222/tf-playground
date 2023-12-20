@@ -4,6 +4,7 @@ module "aks" {
 
 output "kubeconfig" {
   value = module.aks.kubeconfig
+  sensitive = true
 }
 
 terraform {
