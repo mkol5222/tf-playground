@@ -22,4 +22,18 @@ az aks get-credentials --resource-group aks-sa-rg  --name aks-sa-cluster
 kubectl get no
 kubectl get ns
 # should show my-first-namespace created with TF
+
+# attempt to retrieve SA token
+echo; kubectl get secret/cloudguard-controller -o json | jq -r .data.token | base64 -d ; echo; echo
+
+# store in var T
+T=$(kubectl get secret/cloudguard-controller -o json | jq -r .data.token | base64 -d); echo $T
+
+# API server URL
+APISERVER=https://$(kubectl -n default get endpoints kubernetes --no-headers | awk '{ print $2 }'); echo $APISERVER
+
+# test it
+curl -s $APISERVER/openapi/v2  --header "Authorization: Bearer $T" -k
+# list PODs
+curl -s $APISERVER/api/v1/namespaces/kube-system/pods/  --header "Authorization: Bearer $T" -k
 ```
