@@ -12,3 +12,10 @@
 ### SA: TF module creating CG Controller SA using TF
 
 ### Call AKS (K8S) API to list objects using SA token
+
+Once AKS is deployed, this is how to get kubectl access:
+```shell
+az aks list -o table
+az aks get-credentials --resource-group aks-sa-rg  --name aks-sa-cluster
+```
+```

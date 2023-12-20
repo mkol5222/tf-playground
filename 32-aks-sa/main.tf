@@ -1,16 +1,28 @@
 module "aks" {
-    source = "./aks"
+  source = "./aks"
+}
+
+module "sa" {
+    source = "./sa-k8s"
+    k8s_host = module.aks.kubeconfig_data[0]["host"]
+    k8s_client_certificate = base64decode (module.aks.kubeconfig_data[0]["client_certificate"])
+    k8s_client_key = base64decode(module.aks.kubeconfig_data[0]["client_key"])
+    k8s_cluster_ca_certificate = base64decode(module.aks.kubeconfig_data[0]["cluster_ca_certificate"])
 }
 
 output "kubeconfig" {
-  value = module.aks.kubeconfig
+  value     = module.aks.kubeconfig
+  sensitive = true
+}
+output "kubeconfig_data" {
+  value     = module.aks.kubeconfig_data
   sensitive = true
 }
 
 terraform {
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
+      source  = "hashicorp/azurerm"
       version = "3.85.0"
     }
   }
@@ -18,5 +30,5 @@ terraform {
 
 provider "azurerm" {
   # Configuration options
-   features {}
+  features {}
 }

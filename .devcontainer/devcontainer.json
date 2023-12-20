@@ -1,9 +1,12 @@
 {
     "name": "tf-playground",
     "image": "mcr.microsoft.com/devcontainers/base:jammy",
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
-	},
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers-contrib/features/kubectl-asdf:2": {},
+        "ghcr.io/devcontainers-contrib/features/helm-asdf:2": {},
+        "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
+    },
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
     },
