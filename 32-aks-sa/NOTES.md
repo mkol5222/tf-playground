@@ -39,6 +39,10 @@ T=$(terraform output -raw sa_token)
 APISERVER=$(terraform output -raw api_server)
 
 curl -s $APISERVER/api/v1/namespaces/kube-system/pods/  --header "Authorization: Bearer $T" -k
+
+# cleanup
+# because TF state is local, we would love to destroy env before destroying Codespace filesystem
+terraform destroy
 ```
 
 ### AKS: TF module deploying test cluster to new VNET
