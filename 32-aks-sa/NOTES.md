@@ -37,8 +37,9 @@ terraform output -raw api_server
 # lets use it
 T=$(terraform output -raw sa_token)
 APISERVER=$(terraform output -raw api_server)
+terraform output -raw api_server_cacert > /tmp/cacert.pem
 
-curl -s $APISERVER/api/v1/namespaces/kube-system/pods/  --header "Authorization: Bearer $T" -k
+curl -s $APISERVER/api/v1/namespaces/kube-system/pods/  --header "Authorization: Bearer $T" --cacert /tmp/cacert.pem | head
 
 # cleanup
 # because TF state is local, we would love to destroy env before destroying Codespace filesystem

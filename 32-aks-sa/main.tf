@@ -28,6 +28,11 @@ output "api_server" {
   value = module.aks.kubeconfig_data[0]["host"]
 }
 
+output "api_server_cacert" {
+  sensitive = true
+  value = base64decode(module.aks.kubeconfig_data[0]["cluster_ca_certificate"])
+}
+
 terraform {
   required_providers {
     azurerm = {
