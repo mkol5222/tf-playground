@@ -1,0 +1,9 @@
+[
+    { "name": "blue", "ip": "99.1.2.3",  "color":"blue"},
+    { "name": "red", "ip": "99.1.2.9",  "color":"red"},
+    { "name": "orange", "ip": "99.1.2.19",  "color":"orange"},
+    { "name": "black", "ip": "99.1.2.17",  "color":"black"},
+    { "name": "zoo_batman", "ip": "98.1.2.17",  "color":"light green"},
+    { "name": "zoo_catwoman", "ip": "97.1.2.17",  "color":"red"}
+]
+
