@@ -13,4 +13,9 @@ terraform apply -auto-approve
 
 # stored here
 cat server.tfstate
+
+# and again to see updates - serial and timestamp in greeting
+terraform apply -auto-approve
+cat server.tfstate
+
 ```
