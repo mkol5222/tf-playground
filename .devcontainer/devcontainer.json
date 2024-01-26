@@ -5,7 +5,8 @@
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/devcontainers-contrib/features/kubectl-asdf:2": {},
         "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
-        "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {}
+        "ghcr.io/devcontainers-contrib/features/kubectx-kubens:1": {},
+        "ghcr.io/devcontainers-contrib/features/deno:1": {}
     },
     "settings": {
         "terminal.integrated.shell.linux": "/bin/bash"
