@@ -1,6 +1,6 @@
 module "aks" {
   source = "./aks"
-  resource_group_name = "rg-demo-aks-jan25"
+  //resource_group_name = "rg-demo-aks-jan25"
 }
 
 module "sa" {

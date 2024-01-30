@@ -25,7 +25,7 @@ terraform apply
 
 # our cluster
 az aks list -o table
-az aks get-credentials --resource-group aks-sa-rg  --name aks-sa-cluster
+az aks get-credentials --admin --resource-group aks-sa-rg  --name aks-sa-cluster
 kubectl get no
 kubectl get ns
 
