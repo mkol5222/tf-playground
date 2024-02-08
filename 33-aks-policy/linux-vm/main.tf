@@ -157,4 +157,8 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     ]
   }
 
+   tags = {
+    app = "linux1"
+  }
+
 }
