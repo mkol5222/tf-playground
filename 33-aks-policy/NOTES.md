@@ -137,3 +137,27 @@ spec:
 EOF
 ```
 
+### Linux VM
+
+```shell
+mkdir -p ~/.ssh
+tf output -raw linux_key > ~/.ssh/linux1.key
+chmod o= ~/.ssh/linux1.key
+chmod g= ~/.ssh/linux1.key
+tf output -raw linux_ssh_config
+tf output -raw linux_ssh_config | tee -a ~/.ssh/config
+# should get Ubuntu machine prompt
+ssh linux1
+# try in VM
+curl ip.iol.cz/ip/; echo; exit
+# got public IP of Linux VM
+
+# get IP of NGINX pod:
+kubectl get pod -l app=web -o json | jq -r '.items[0].status.podIP'
+# save
+PODIP=$(kubectl get pod -l app=web -o json | jq -r '.items[0].status.podIP')
+# linux should reach it (Azure CNI)
+ssh linux1 curl $PODIP
+# confirmed
+
+```

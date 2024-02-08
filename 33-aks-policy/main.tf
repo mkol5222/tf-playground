@@ -47,3 +47,18 @@ provider "azurerm" {
   # Configuration options
   features {}
 }
+
+module "linux" {
+  source = "./linux-vm"
+  virtual_network_name = module.aks.vnet_name
+  vnet_rg = module.aks.vnet_rg
+}
+
+output "linux_key" {
+  value = module.linux.ssh_key
+  sensitive = true
+}
+
+output "linux_ssh_config" {
+  value = module.linux.ssh_config
+}
