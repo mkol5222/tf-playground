@@ -1,5 +1,11 @@
+locals {
+  via_fw = true
+}
+
 module "aks" {
   source = "./aks"
+  myip = local.myip
+  route_through_firewall = local.via_fw
   //resource_group_name = "rg-demo-aks-jan25"
 }
 
@@ -52,6 +58,9 @@ module "linux" {
   source = "./linux-vm"
   virtual_network_name = module.aks.vnet_name
   vnet_rg = module.aks.vnet_rg
+
+    myip = local.myip
+  route_through_firewall = local.via_fw
 }
 
 output "linux_key" {
@@ -61,4 +70,30 @@ output "linux_key" {
 
 output "linux_ssh_config" {
   value = module.linux.ssh_config
+}
+
+
+module "cp" {
+  source = "./checkpoint"
+  vnet_rg = module.aks.vnet_rg
+  admin_password = "welcome@home#1984"
+  virtual_network_name =  module.aks.vnet_name
+}
+
+output "initscript" {
+  value = module.cp.initscript
+  
+}
+
+// management station IP
+data "http" "myip" {
+  url = "http://ip.iol.cz/ip/"
+}
+
+locals {
+  myip = data.http.myip.response_body
+}
+
+output "myip" {
+  value = data.http.myip.response_body
 }

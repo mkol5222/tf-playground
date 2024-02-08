@@ -7,3 +7,5 @@ resource "azurerm_resource_group" "rg" {
 output "vnet_rg" {
   value = azurerm_resource_group.rg
 }
+
+

@@ -48,3 +48,13 @@ variable "vm_name" {
   type        = string
   default = "linux1"
 }
+
+variable "myip" {
+  type=string  
+}
+
+variable "route_through_firewall" {
+  type = bool
+  
+  default = false
+}

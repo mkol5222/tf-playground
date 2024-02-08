@@ -145,7 +145,7 @@ tf output -raw linux_key > ~/.ssh/linux1.key
 chmod o= ~/.ssh/linux1.key
 chmod g= ~/.ssh/linux1.key
 tf output -raw linux_ssh_config
-tf output -raw linux_ssh_config | tee -a ~/.ssh/config
+tf output -raw linux_ssh_config | tee  ~/.ssh/config
 # should get Ubuntu machine prompt
 ssh linux1
 # try in VM
@@ -160,4 +160,41 @@ PODIP=$(kubectl get pod -l app=web -o json | jq -r '.items[0].status.podIP')
 ssh linux1 curl $PODIP
 # confirmed
 
+ssh linux1 sudo apt update; ssh linux1 sudo apt install -y nginx
+```
+
+
+### Disable NAT for traffice from Pods
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: azure-ip-masq-agent-config
+  namespace: kube-system
+  labels:
+    component: ip-masq-agent
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: EnsureExists
+data:
+  ip-masq-agent: |-
+    nonMasqueradeCIDRs:
+      - 0.0.0.0/0
+    masqLinkLocal: true
+EOF
+
+# remove config mod
+kubectl delete cm/azure-ip-masq-agent-config -n kube-system
+
+# scale web deploy
+kubectl scale deploy web --replicas 8
+PODS=$(kubectl get pod -l app=web -o name)
+# go from every pod
+while true; do
+  for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ip.iol.cz/ip/; echo; done
+  for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ifconfig.me; echo; done
+  for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 10.68.2.4; echo; done
+  sleep 2;
+done
 ```
