@@ -188,7 +188,7 @@ EOF
 kubectl delete cm/azure-ip-masq-agent-config -n kube-system
 
 # scale web deploy
-kubectl scale deploy web --replicas 8
+kubectl scale deploy web --replicas 6
 PODS=$(kubectl get pod -l app=web -o name)
 # go from every pod
 while true; do
@@ -198,3 +198,5 @@ while true; do
   sleep 2;
 done
 ```
+
+Ingress https://learn.microsoft.com/en-us/azure/firewall/protect-azure-kubernetes-service
