@@ -9,6 +9,6 @@ terraform {
 }
 
 output "ts" {
-    value = timestamp()
-  
+  value = "ts is ${timestamp()}"
+
 }
