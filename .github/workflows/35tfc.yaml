@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "# terraform plan" > /tmp/plan.md
           echo '```' >> /tmp/plan.md
-          tee -a /tmp/plan.md <<< "${{ steps.plan.outputs.stdout }}"
+          tee -a /tmp/plan.md <<< "$PLAN"
           echo '```' >> /tmp/plan.md
 
           echo "---"
@@ -70,6 +70,7 @@ jobs:
             -F body=@/tmp/plan.md
 
         env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
           GH_TOKEN: ${{ github.token }}
         shell: bash
 
