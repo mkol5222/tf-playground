@@ -54,14 +54,25 @@ jobs:
       
       - name: Report
         run: |
-          echo "${{ steps.init.outcome }}"
+          cat << EOF 
+          ${{ steps.init.outcome }}
+
+          terraform
+          ${{ steps.plan.outputs.stdout }}"
+          EOF
+          cat <<EOF > /tmp/plan.txt
+          # terraform
+          ```
+          ${{ steps.plan.outputs.stdout }}"
+          ```
+          EOF
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/mkol5222/tf-playground/issues \
             -f title='Terraform finished' \
-            -f body="```\n${{ steps.plan.outcome }}\n```\n"
+            -f body=$(cat /tmp/plan.txt)
         env:
           GH_TOKEN: ${{ github.token }}
 
