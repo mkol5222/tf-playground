@@ -1,10 +1,17 @@
 on:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./35-tf-cloud-gha
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
-      - name: Print the date
-        run: date
+      - name: Print the date and working dir
+        run: date; pwd
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+             
