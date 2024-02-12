@@ -54,8 +54,11 @@ jobs:
       
       - name: Report
         run: |
-          tee /tmp/plan.txt <<< "terraform\n${{ steps.plan.outputs.stdout }}"
-          
+          echo "# terraform plan" > /tmp/plan.md
+          echo '```' >> /tmp/plan.md
+          tee -a /tmp/plan.md <<< "${{ steps.plan.outputs.stdout }}"
+          echo '```' >> /tmp/plan.md
+
           echo "---"
 
           gh api \
@@ -64,7 +67,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/mkol5222/tf-playground/issues \
             -f title='Terraform finished' \
-            -F body=@/tmp/plan.txt
+            -F body=@/tmp/plan.md
 
         env:
           GH_TOKEN: ${{ github.token }}
