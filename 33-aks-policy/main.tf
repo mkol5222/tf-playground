@@ -41,6 +41,13 @@ output "api_server_cacert" {
 }
 
 terraform {
+  #   cloud {
+  #   organization = "cp-cnc"
+
+  #   workspaces {
+  #     name = "aks1"
+  #   }
+  # }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
