@@ -62,7 +62,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/mkol5222/tf-playground/issues \
             -f title='Terraform finished' \
-            -f body=$(cat /tmp/plan.txt)
+            -F body=@- <<< "terraform\n${{ steps.plan.outputs.stdout }}" 
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
