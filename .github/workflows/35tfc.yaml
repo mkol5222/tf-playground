@@ -1,0 +1,10 @@
+on:
+  workflow_dispatch:
+
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the date
+        run: date

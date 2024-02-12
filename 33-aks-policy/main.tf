@@ -61,6 +61,8 @@ module "linux" {
 
     myip = local.myip
   route_through_firewall = local.via_fw
+
+  depends_on = [ module.aks ]
 }
 
 output "linux_key" {
@@ -78,6 +80,7 @@ module "cp" {
   vnet_rg = module.aks.vnet_rg
   admin_password = "welcome@home#1984"
   virtual_network_name =  module.aks.vnet_name
+  depends_on = [ module.aks ]
 }
 
 output "initscript" {
