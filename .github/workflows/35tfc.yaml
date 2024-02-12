@@ -55,6 +55,7 @@ jobs:
       - name: Report
         run: |
           tee /tmp/plan.txt <<< "terraform\n${{ steps.plan.outputs.stdout }}"
+          echo "---"
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
