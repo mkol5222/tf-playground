@@ -52,7 +52,7 @@ resource "azurerm_public_ip" "public-ip" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      tags,
+      tags, location
     ]
   }
 }
@@ -78,7 +78,7 @@ resource "azurerm_network_interface" "nic1" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      tags,
+      tags, location
     ]
   }
 }
@@ -102,7 +102,7 @@ resource "azurerm_network_interface" "nic2" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      tags,
+      tags, location
     ]
   }
 }
@@ -126,7 +126,7 @@ resource "azurerm_storage_account" "vm-boot-diagnostics-storage" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      tags,
+      tags, location
     ]
   }
 }
@@ -236,7 +236,7 @@ resource "azurerm_virtual_machine" "sg-vm-instance" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      tags,
+      tags, os_profile, location
     ]
   }
 }

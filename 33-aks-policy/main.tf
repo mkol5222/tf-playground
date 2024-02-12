@@ -1,5 +1,5 @@
 locals {
-  via_fw = false
+  via_fw = true
 }
 
 module "aks" {
