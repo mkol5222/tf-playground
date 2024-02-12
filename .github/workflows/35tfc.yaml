@@ -54,18 +54,7 @@ jobs:
       
       - name: Report
         run: |
-          cat << EOF 
-          ${{ steps.init.outcome }}
-
-          terraform
-          ${{ steps.plan.outputs.stdout }}"
-          EOF
-          cat <<EOF > /tmp/plan.txt
-          # terraform
-          ```
-          ${{ steps.plan.outputs.stdout }}"
-          ```
-          EOF
+          tee /tmp/plan.txt <<< "terraform\n${{ steps.plan.outputs.stdout }}"
           gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
@@ -75,6 +64,7 @@ jobs:
             -f body=$(cat /tmp/plan.txt)
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
 
 
       # - uses: actions/github-script@v6
