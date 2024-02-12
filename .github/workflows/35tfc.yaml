@@ -3,7 +3,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./35-tf-cloud-gha
+    working-directory: 35-tf-cloud-gha
 
 jobs:
   terraform:
