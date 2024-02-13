@@ -40,4 +40,14 @@ tf output -raw linux_ssh_config | tee -a  ~/.ssh/config
 tf output -raw linux_ssh_config | tee  ~/.ssh/config
 # should get Ubuntu machine prompt
 ssh linux1
+
+# on cp man CME
+# fill vars from Keepass
+client_secret="i1F8Q~Tlxxx"
+client_id="323xxx"
+tenant_id="01605xxx"
+subscription_id="f4axxx"
+
+autoprov-cfg -f init Azure -mn cp-man-tf -tn vmss -otp WelcomeHome1984 -ver R81.20 -po Standard -cn CN1 -sb $subscription_id -at $tenant_id -acs $client_secret-aci $client_id
+autoprov-cfg set template -tn vmss -ia -ips
 ```

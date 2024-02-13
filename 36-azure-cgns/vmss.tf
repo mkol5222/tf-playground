@@ -24,7 +24,7 @@ module "vmss" {
 
   backend_lb_IP_address          = 4
   admin_password                 = "Welcome@Home#1984"
-  sic_key                        = "Welcome@Home#1984"
+  sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
   vm_os_sku                      = "sg-byol"
@@ -43,7 +43,7 @@ module "vmss" {
   notification_email             = ""
   frontend_load_distribution     = "Default"
   backend_load_distribution      = "Default"
-  enable_custom_metrics          = true
+  enable_custom_metrics          = false
   enable_floating_ip             = false
   deployment_mode                = "Standard"
   admin_shell                    = "/bin/bash"
