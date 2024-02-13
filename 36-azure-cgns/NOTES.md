@@ -22,4 +22,22 @@ EOF
 
 # will use https://github.com/CheckPointSW/CloudGuardIaaS/tree/master/terraform/azure/management-new-vnet
 
+alias tf=terraform
+tf init
+tf apply -target module.management
+tf apply -target azurerm_subnet.cp-front
+tf apply -target azurerm_subnet.cp-back
+tf apply -target module.vmss
+tf apply -target module.linux
+
+mkdir -p ~/.ssh
+tf output -raw linux_key > ~/.ssh/linux1.key
+chmod o= ~/.ssh/linux1.key
+chmod g= ~/.ssh/linux1.key
+tf output -raw linux_ssh_config
+tf output -raw linux_ssh_config | tee -a  ~/.ssh/config
+# or OVERWRITE!!!
+tf output -raw linux_ssh_config | tee  ~/.ssh/config
+# should get Ubuntu machine prompt
+ssh linux1
 ```
