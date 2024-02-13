@@ -12,9 +12,9 @@ module "vmss" {
 
   source_image_vhd_uri = "noCustomUri"
 
-  resource_group_name = "cp-cmss-tf"
+  resource_group_name = "cp-vmss-tf"
   location            = "westeurope"
-  vmss_name           = "cp-cmss-tf"
+  vmss_name           = "cp-vmss-tf"
 
   vnet_name           = "checkpoint-mgmt-vnet"
   vnet_resource_group = "cp-man-tf"
@@ -38,7 +38,7 @@ module "vmss" {
   maximum_number_of_vm_instances = 2
   management_name                = "cp-man-tf"
   management_IP                  = "10.0.0.4"
-  management_interface           = "eth1-private"
+  management_interface           = "eth0-private"
   configuration_template_name    = "vmss_template"
   notification_email             = ""
   frontend_load_distribution     = "Default"

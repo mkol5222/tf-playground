@@ -48,6 +48,14 @@ client_id="323xxx"
 tenant_id="01605xxx"
 subscription_id="f4axxx"
 
-autoprov-cfg -f init Azure -mn cp-man-tf -tn vmss -otp WelcomeHome1984 -ver R81.20 -po Standard -cn CN1 -sb $subscription_id -at $tenant_id -acs $client_secret-aci $client_id
-autoprov-cfg set template -tn vmss -ia -ips
+autoprov-cfg -f init Azure -mn cp-man-tf -tn vmss_template -otp WelcomeHome1984 -ver R81.20 -po Standard -cn CN1 -sb $subscription_id -at $tenant_id -acs $client_secret -aci $client_id
+
+autoprov-cfg set template -tn vmss_template -ia -ips 
+
+autoprov-cfg show all
+tail -f /var/log/CPcme/cme.log
+
+az vmss list -o table
+az vmss list-instances -o table --name cp-cmss-tf  -g CP-CMSS-TF 
+
 ```
