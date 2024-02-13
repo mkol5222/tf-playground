@@ -55,7 +55,20 @@ autoprov-cfg set template -tn vmss_template -ia -ips
 autoprov-cfg show all
 tail -f /var/log/CPcme/cme.log
 
+###
+# SG
+# set static-route 10.0.0.0/24 nexthop gateway address 10.0.11.1 on
+# set static-route 10.0.101.0/24 nexthop gateway address 10.0.11.1 on 
+# as CME gw script
+###
+
 az vmss list -o table
-az vmss list-instances -o table --name cp-cmss-tf  -g CP-CMSS-TF 
+az vmss list-instances -o table --name cp-vmss-tf  -g CP-VMSS-TF 
+
+az vmss nic list -g CP-VMSS-TF  --vmss-name cp-vmss-tf -o table
+az vmss nic list -g CP-VMSS-TF  --vmss-name cp-vmss-tf | grep -i ips
+az vmss list-instance-public-ips -g CP-VMSS-TF --name cp-vmss-tf -o table
+
+
 
 ```
