@@ -21,3 +21,14 @@ subscription_id = "f4ad5xxx"
 EOF
 
 
+# connect to Linux
+mkdir -p ~/.ssh
+tf output -raw linux_key > ~/.ssh/linux1.key
+chmod o= ~/.ssh/linux1.key
+chmod g= ~/.ssh/linux1.key
+tf output -raw linux_ssh_config
+tf output -raw linux_ssh_config | tee -a  ~/.ssh/config
+# or OVERWRITE!!!
+tf output -raw linux_ssh_config | tee  ~/.ssh/config
+# should get Ubuntu machine prompt
+ssh linux1

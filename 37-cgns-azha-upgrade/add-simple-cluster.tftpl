@@ -1,0 +1,39 @@
+mgmt_cli -r true add simple-cluster name "${CLUSTER_NAME}"\
+    color "pink"\
+    version "${VERSION}"\
+    ip-address "${MAIN_IP}"\
+    os-name "Gaia"\
+    cluster-mode "cluster-xl-ha"\
+    firewall true\
+    vpn false\
+    interfaces.1.name "eth0"\
+    interfaces.1.ip-address "${MAIN_IP}"\
+    interfaces.1.network-mask "${FRONT_NETMASK}"\
+    interfaces.1.interface-type "cluster + sync"\
+    interfaces.1.topology "EXTERNAL"\
+    interfaces.1.anti-spoofing false \
+    interfaces.2.name "eth1"\
+    interfaces.2.interface-type "sync"\
+    interfaces.2.topology "INTERNAL"\
+    interfaces.2.topology-settings.ip-address-behind-this-interface "network defined by the interface ip and net mask"\
+    interfaces.2.topology-settings.interface-leads-to-dmz false\
+    interfaces.2.anti-spoofing false \
+    members.1.name "${CLUSTER_NAME}1"\
+    members.1.one-time-password "${SIC_KEY}"\
+    members.1.ip-address "${NODE1_ETH0_IP}"\
+    members.1.interfaces.1.name "eth0"\
+    members.1.interfaces.1.ip-address "${NODE1_ETH0_IP}"\
+    members.1.interfaces.1.network-mask "${FRONT_NETMASK}"\
+    members.1.interfaces.2.name "eth1"\
+    members.1.interfaces.2.ip-address "${NODE1_ETH1_IP}"\
+    members.1.interfaces.2.network-mask "${BACK_NETMASK}"\
+    members.2.name "${CLUSTER_NAME}2"\
+    members.2.one-time-password "${SIC_KEY}"\
+    members.2.ip-address "${NODE2_ETH0_IP}"\
+    members.2.interfaces.1.name "eth0"\
+    members.2.interfaces.1.ip-address "${NODE2_ETH0_IP}"\
+    members.2.interfaces.1.network-mask "${FRONT_NETMASK}"\
+    members.2.interfaces.2.name "eth1"\
+    members.2.interfaces.2.ip-address "${NODE2_ETH1_IP}"\
+    members.2.interfaces.2.network-mask "${BACK_NETMASK}"\
+    --format json
