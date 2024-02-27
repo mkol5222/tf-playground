@@ -1,7 +1,7 @@
 
 
 module "vnet" {
-    source = "./vnet"
+  source = "./vnet"
 }
 
 module "cpha1" {
@@ -14,45 +14,90 @@ module "cpha1" {
   tenant_id       = var.tenant_id
   subscription_id = var.subscription_id
 
-source_image_vhd_uri            = "noCustomUri"
-resource_group_name             = "cpha1"
-cluster_name                    = "cpha1"
-location                        = "westeurope"
+  source_image_vhd_uri = "noCustomUri"
+  resource_group_name  = "cpha1"
+  cluster_name         = "cpha1"
+  location             = "westeurope"
 
-vnet_name                       = "cgns-azha-upgrade-vnet"
-vnet_resource_group             = "cgns-azha-upgrade-rg"
-frontend_subnet_name            = "cgns-azha-upgrade-cp-front-subnet"
-backend_subnet_name             = "cgns-azha-upgrade-cp-back-subnet"
-frontend_IP_addresses           = [4, 5, 6]
-backend_IP_addresses            = [4, 5, 6]
-admin_password                  = "Welcome@Home#1984"
-smart_1_cloud_token_a           = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTQxZjcyMTUyLTIyZjYtNGQzMi1iMjM4LTgwN2YzMjA4NTI2ZA=="
-smart_1_cloud_token_b           = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTI0YzQyYmY3LTM3ZDgtNGQyZS1hOTI2LTE4NDZmMDI1NjUyYQ=="
-sic_key                         = "WelcomeHome1984"
-vm_size                         = "Standard_D3_v2"
-disk_size                       = "110"
-vm_os_sku                       = "sg-byol"
-vm_os_offer                     = "check-point-cg-r8110"
-os_version                      = "R8110"
-bootstrap_script                = "touch /home/admin/bootstrap.txt; echo 'hello_world' > /home/admin/bootstrap.txt"
-allow_upload_download           = true
-authentication_type             = "Password"
-availability_type               = "Availability Zone"
-enable_custom_metrics           = true
-enable_floating_ip              = false
-use_public_ip_prefix            = false
-create_public_ip_prefix         = false
-existing_public_ip_prefix_id    = ""
-admin_shell                     = "/bin/bash"
-serial_console_password_hash    = "$6$vNoQjEAqeNGDlVeA$/JDrwLCKvxdw0yhcatSmumPzqu0fWezYAA0fXLzTpuWZfWzfufiF53fJeFAqx5wSftcCDd7STpbevQHhnw48l." // openssl passwd -6 "Welcome@Home#1984"
-maintenance_mode_password_hash  = "" // grub2-mkpasswd-pbkdf2
+  vnet_name                      = "cgns-azha-upgrade-vnet"
+  vnet_resource_group            = "cgns-azha-upgrade-rg"
+  frontend_subnet_name           = "cgns-azha-upgrade-cp-front-subnet"
+  backend_subnet_name            = "cgns-azha-upgrade-cp-back-subnet"
+  frontend_IP_addresses          = [4, 5, 6]
+  backend_IP_addresses           = [4, 5, 6]
+  admin_password                 = "Welcome@Home#1984"
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTQxZjcyMTUyLTIyZjYtNGQzMi1iMjM4LTgwN2YzMjA4NTI2ZA=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTI0YzQyYmY3LTM3ZDgtNGQyZS1hOTI2LTE4NDZmMDI1NjUyYQ=="
+  sic_key                        = "WelcomeHome1984"
+  vm_size                        = "Standard_D3_v2"
+  disk_size                      = "110"
+  vm_os_sku                      = "sg-byol"
+  vm_os_offer                    = "check-point-cg-r8110"
+  os_version                     = "R8110"
+  bootstrap_script               = "touch /home/admin/bootstrap.txt; echo 'hello_world' > /home/admin/bootstrap.txt"
+  allow_upload_download          = true
+  authentication_type            = "Password"
+  availability_type              = "Availability Zone"
+  enable_custom_metrics          = true
+  enable_floating_ip             = false
+  use_public_ip_prefix           = false
+  create_public_ip_prefix        = false
+  existing_public_ip_prefix_id   = ""
+  admin_shell                    = "/bin/bash"
+  serial_console_password_hash   = "$6$vNoQjEAqeNGDlVeA$/JDrwLCKvxdw0yhcatSmumPzqu0fWezYAA0fXLzTpuWZfWzfufiF53fJeFAqx5wSftcCDd7STpbevQHhnw48l." // openssl passwd -6 "Welcome@Home#1984"
+  maintenance_mode_password_hash = ""                                                                                                           // grub2-mkpasswd-pbkdf2
+
+}
+
+module "cpha2" {
+  // depends_on = [ azurerm_subnet.cp-back, azurerm_subnet.cp-front ]
+
+  source = "github.com/CheckPointSW/CloudGuardIaaS/terraform/azure/high-availability-existing-vnet"
+
+  client_secret   = var.client_secret
+  client_id       = var.client_id
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
+
+  source_image_vhd_uri = "noCustomUri"
+  resource_group_name  = "cpha2"
+  cluster_name         = "cpha2"
+  location             = "westeurope"
+
+  vnet_name                      = "cgns-azha-upgrade-vnet"
+  vnet_resource_group            = "cgns-azha-upgrade-rg"
+  frontend_subnet_name           = "cgns-azha-upgrade-cp-front-subnet"
+  backend_subnet_name            = "cgns-azha-upgrade-cp-back-subnet"
+  frontend_IP_addresses          = [8,9,10]
+  backend_IP_addresses           = [8,9,10]
+  admin_password                 = "Welcome@Home#1984"
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTBjZTVkOGFmLWNkZTYtNDgyNy1iNjMzLTFmZjM1ZjE5ZGZmYg=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTk2YmNiM2M1LTVhMzktNGYwMC1iZjBhLTg0ZmYzN2UxNjc4MA=="
+  sic_key                        = "WelcomeHome1984"
+  vm_size                        = "Standard_D3_v2"
+  disk_size                      = "110"
+  vm_os_sku                      = "sg-byol"
+  vm_os_offer                    = "check-point-cg-r8110"
+  os_version                     = "R8110"
+  bootstrap_script               = "touch /home/admin/bootstrap.txt; echo 'hello_world' > /home/admin/bootstrap.txt"
+  allow_upload_download          = true
+  authentication_type            = "Password"
+  availability_type              = "Availability Zone"
+  enable_custom_metrics          = true
+  enable_floating_ip             = false
+  use_public_ip_prefix           = false
+  create_public_ip_prefix        = false
+  existing_public_ip_prefix_id   = ""
+  admin_shell                    = "/bin/bash"
+  serial_console_password_hash   = "$6$vNoQjEAqeNGDlVeA$/JDrwLCKvxdw0yhcatSmumPzqu0fWezYAA0fXLzTpuWZfWzfufiF53fJeFAqx5wSftcCDd7STpbevQHhnw48l." // openssl passwd -6 "Welcome@Home#1984"
+  maintenance_mode_password_hash = ""                                                                                                           // grub2-mkpasswd-pbkdf2
 
 }
 
 module "linux" {
-    source = "./linux-vm"
-    myip = local.myip
-    route_through_firewall = true
+  source                 = "./linux-vm"
+  myip                   = local.myip
+  route_through_firewall = true
 }
 
 terraform {
@@ -66,9 +111,9 @@ terraform {
 
 provider "azurerm" {
   subscription_id = var.subscription_id
-  client_id = var.client_id
-  client_secret = var.client_secret
-  tenant_id = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
 
   features {}
 }

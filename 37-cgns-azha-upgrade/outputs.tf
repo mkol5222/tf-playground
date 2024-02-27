@@ -1,5 +1,5 @@
 output "linux_key" {
-  value = module.linux.ssh_key
+  value     = module.linux.ssh_key
   sensitive = true
 }
 
