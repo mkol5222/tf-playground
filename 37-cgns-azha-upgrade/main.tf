@@ -71,14 +71,14 @@ module "cpha2" {
   frontend_IP_addresses          = [8,9,10]
   backend_IP_addresses           = [8,9,10]
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTBjZTVkOGFmLWNkZTYtNDgyNy1iNjMzLTFmZjM1ZjE5ZGZmYg=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTk2YmNiM2M1LTVhMzktNGYwMC1iZjBhLTg0ZmYzN2UxNjc4MA=="
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWViOGEwZTU5LTE5MDgtNGM4OC1iNmFlLTU2MWVhMThlM2IwOA=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWRmNTA0MzBmLTA0NGUtNDM0MC1hMzg4LTkzZjRlYjE1YWQ4ZA=="
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
   vm_os_sku                      = "sg-byol"
-  vm_os_offer                    = "check-point-cg-r8110"
-  os_version                     = "R8110"
+  vm_os_offer                    = "check-point-cg-r8120"
+  os_version                     = "R8120"
   bootstrap_script               = "touch /home/admin/bootstrap.txt; echo 'hello_world' > /home/admin/bootstrap.txt"
   allow_upload_download          = true
   authentication_type            = "Password"
