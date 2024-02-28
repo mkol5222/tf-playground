@@ -46,7 +46,7 @@ tf apply -target module.cpha2
 
 #####
 # destroy
-tf destroy -target module.cpha2
-tf destroy -target module.linux
-tf destroy -target module.cpha1
-tf destroy -target module.vnet
+tf destroy -target module.cpha2 -auto-approve
+tf destroy -target module.linux -auto-approve
+tf destroy -target module.cpha1 -auto-approve
+tf destroy -target module.vnet -auto-approve
