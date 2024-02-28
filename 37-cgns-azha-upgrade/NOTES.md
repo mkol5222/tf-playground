@@ -36,12 +36,12 @@ ssh linux1
 
 # build
 tf init -upgrade
-tf destroy -target module.vnet
+tf apply -target module.vnet
 # SC1 token!
-tf destroy -target module.cpha1
-tf destroy -target module.linux
+tf apply -target module.cpha1
+tf apply -target module.linux
 # SC1 token!
-tf destroy -target module.cpha2
+tf apply -target module.cpha2
 
 
 #####

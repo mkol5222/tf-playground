@@ -74,6 +74,7 @@ module "cpha2" {
   backend_subnet_name            = "cgns-azha-upgrade-cp-back-subnet"
   frontend_IP_addresses          = [8,9,10]
   backend_IP_addresses           = [8,9,10]
+
   admin_password                 = "Welcome@Home#1984"
   smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWUyZjNjOTA3LTNlMDYtNGFhMS04MGU3LTk0OGY0MDUzNzljZg=="
   smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWVkODYxYmFjLWI4MjctNGQ0OS1hN2M5LWNmZjlhMTcxMTgyZA=="
