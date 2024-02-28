@@ -32,3 +32,21 @@ tf output -raw linux_ssh_config | tee -a  ~/.ssh/config
 tf output -raw linux_ssh_config | tee  ~/.ssh/config
 # should get Ubuntu machine prompt
 ssh linux1
+
+
+# build
+tf init -upgrade
+tf destroy -target module.vnet
+# SC1 token!
+tf destroy -target module.cpha1
+tf destroy -target module.linux
+# SC1 token!
+tf destroy -target module.cpha2
+
+
+#####
+# destroy
+tf destroy -target module.cpha2
+tf destroy -target module.linux
+tf destroy -target module.cpha1
+tf destroy -target module.vnet

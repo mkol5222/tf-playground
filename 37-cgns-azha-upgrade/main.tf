@@ -26,8 +26,8 @@ module "cpha1" {
   frontend_IP_addresses          = [4, 5, 6]
   backend_IP_addresses           = [4, 5, 6]
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTQxZjcyMTUyLTIyZjYtNGQzMi1iMjM4LTgwN2YzMjA4NTI2ZA=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTI0YzQyYmY3LTM3ZDgtNGQyZS1hOTI2LTE4NDZmMDI1NjUyYQ=="
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPTcyNTgzZTEyLTZmNDAtNGIzYS05MjhkLTFjN2ZjYTZmYzVjZA=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWU1NTAzNzFiLTExYTUtNDQ5NC1hMzVjLWNkN2E2NTdjZGIwZQ=="
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
@@ -52,7 +52,11 @@ module "cpha1" {
 module "cpha2" {
   // depends_on = [ azurerm_subnet.cp-back, azurerm_subnet.cp-front ]
 
-  source = "github.com/CheckPointSW/CloudGuardIaaS/terraform/azure/high-availability-existing-vnet"
+// MKo fork!
+  source = "github.com/mkol5222/CloudGuardIaaS/terraform/azure/high-availability-existing-vnet"
+
+  no_frontend_lb = true
+  no_backend_lb = true
 
   client_secret   = var.client_secret
   client_id       = var.client_id
@@ -71,8 +75,8 @@ module "cpha2" {
   frontend_IP_addresses          = [8,9,10]
   backend_IP_addresses           = [8,9,10]
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWViOGEwZTU5LTE5MDgtNGM4OC1iNmFlLTU2MWVhMThlM2IwOA=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWRmNTA0MzBmLTA0NGUtNDM0MC1hMzg4LTkzZjRlYjE1YWQ4ZA=="
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWUyZjNjOTA3LTNlMDYtNGFhMS04MGU3LTk0OGY0MDUzNzljZg=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzE2MWJiMDI1LTU1ZjMtNGY0Mi1iYjU3LTIyZDg3NjZhM2ZlOS9hY2Nlc3Mta2V5cy8/b3RwPWVkODYxYmFjLWI4MjctNGQ0OS1hN2M5LWNmZjlhMTcxMTgyZA=="
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
