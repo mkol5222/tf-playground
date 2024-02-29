@@ -21,6 +21,18 @@ subscription_id = "f4ad5xxx"
 EOF
 
 
+
+
+
+# build
+tf init -upgrade
+tf apply -target module.vnet -auto-approve
+# SC1 token!
+tf apply -target module.cpha1 -auto-approve
+tf apply -target module.linux -auto-approve
+# SC1 token!
+tf apply -target module.cpha2 -auto-approve
+
 # connect to Linux
 mkdir -p ~/.ssh
 tf output -raw linux_key > ~/.ssh/linux1.key
@@ -32,21 +44,13 @@ tf output -raw linux_ssh_config | tee -a  ~/.ssh/config
 tf output -raw linux_ssh_config | tee  ~/.ssh/config
 # should get Ubuntu machine prompt
 ssh linux1
-
-
-# build
-tf init -upgrade
-tf apply -target module.vnet
-# SC1 token!
-tf apply -target module.cpha1
-tf apply -target module.linux
-# SC1 token!
-tf apply -target module.cpha2
-
+# while true; do ping -c 1 1.1.1.1; curl -s ip.iol.cz/ip/ -m1; echo; sleep 2; done
 
 #####
 # destroy
+# NODE1 active before destroy - wait for VIP move!!!
 tf destroy -target module.cpha2 -auto-approve
 tf destroy -target module.linux -auto-approve
+# NODE1 active before destroy
 tf destroy -target module.cpha1 -auto-approve
 tf destroy -target module.vnet -auto-approve

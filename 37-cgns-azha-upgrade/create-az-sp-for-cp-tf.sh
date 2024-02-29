@@ -6,7 +6,7 @@ set -euxo pipefail
 SUBSCRIPTION_ID=$(az account list -o json | jq -r '.[]|select(.isDefault)|.id')
 echo $SUBSCRIPTION_ID
 # note credentials for config
-AZCRED=$(az ad sp create-for-rbac --role="Owner" --scopes="/subscriptions/$SUBSCRIPTION_ID")
+AZCRED=$(az ad sp create-for-rbac --name deleteme --role="Owner" --scopes="/subscriptions/$SUBSCRIPTION_ID")
 # echo "$AZCRED" | jq .
 CLIENT_ID=$(echo "$AZCRED" | jq -r .appId)
 CLIENT_SECRET=$(echo "$AZCRED" | jq -r .password)
