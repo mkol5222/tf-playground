@@ -16,6 +16,8 @@ az login
 # review
 az account list -o table
 
+# remember via_fw = false in main !!!
+
 # deploy test AKS cluster and CG Controller SA using TF
 terraform init
 # review and deploy
@@ -86,8 +88,8 @@ https://learn.microsoft.com/en-us/azure/aks/use-network-policies#overview-of-net
 
 ```shell
 # deploy service
-kubectl create deploy web --image nginx --port 80
-
+kubectl create deploy web --image nginx --port 80 --replicas 1
+kubectl scale deploy/web --replicas 1
 # connect from service to Internet - get public IP
 
 # wait a bit ;-)
