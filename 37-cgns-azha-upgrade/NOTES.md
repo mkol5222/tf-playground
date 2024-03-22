@@ -54,3 +54,11 @@ tf destroy -target module.linux -auto-approve
 # NODE1 active before destroy
 tf destroy -target module.cpha1 -auto-approve
 tf destroy -target module.vnet -auto-approve
+
+# delete SP(s)
+az ad sp list --all --show-mine -o table
+az ad sp list --display-name CPHAdeployer --query "[].{id:appId}" -o tsv
+az ad sp list --display-name CPHAReader --query "[].{id:appId}" -o tsv
+az ad sp delete --id $(az ad sp list --display-name CPHAdeployer --query "[].{id:appId}" -o tsv)
+az ad sp delete --id $(az ad sp list --display-name CPHAReader --query "[].{id:appId}" -o tsv)
+az ad sp list --all --show-mine -o table

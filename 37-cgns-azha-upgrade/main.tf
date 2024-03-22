@@ -26,8 +26,8 @@ module "cpha1" {
   frontend_IP_addresses          = [4, 5, 6]
   backend_IP_addresses           = [4, 5, 6]
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzAwMzQ1OWUyLWVmNTMtNDIzZS05YTg3LTFlMWIzZTcyNGViMS9hY2Nlc3Mta2V5cy8/b3RwPThkN2MwYWZhLWRkYTEtNDllYi04NTNhLTE1MTJjNWEyZDk4Yg=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzAwMzQ1OWUyLWVmNTMtNDIzZS05YTg3LTFlMWIzZTcyNGViMS9hY2Nlc3Mta2V5cy8/b3RwPTEwMjViYmVhLTg1Y2EtNGVlYS04MzRlLTBjOTM2N2M4MTliMw=="
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPWY0ZWI1NWMwLTdhZGYtNDNiMy05MTkxLWY3MjQzZGMxZWIzNw=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTBmNTU0NzI2LTkyYjItNDNmYS1hNmFmLTIyMGFiZWI2NDkwZA=="
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
@@ -76,8 +76,8 @@ module "cpha2" {
   backend_IP_addresses           = [8,9,10]
 
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzAwMzQ1OWUyLWVmNTMtNDIzZS05YTg3LTFlMWIzZTcyNGViMS9hY2Nlc3Mta2V5cy8/b3RwPTM0ZWU2NTdmLTA0MWMtNGQ4ZC1hNzJlLWJjMWMwZmFmYjFhMw=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzAwMzQ1OWUyLWVmNTMtNDIzZS05YTg3LTFlMWIzZTcyNGViMS9hY2Nlc3Mta2V5cy8/b3RwPTE3MmQ3ODRmLTdmNTctNDVlNi05ZDUwLTc4MTY3MDcxYmM4OQ=="
+  smart_1_cloud_token_a          = ""
+  smart_1_cloud_token_b          = ""
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
