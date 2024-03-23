@@ -27,10 +27,19 @@ output "spoke_vpc_b_host_ip" {
 }
 
 module "cpman" {
-  depends_on = [module.env, module.instances]
+  depends_on = [module.env]
 
   source = "./03-cpman"
 
   inspection_vpc_id = module.env.inspection_vpc_id
   igw_id = module.env.igw_id
+}
+
+module "cgns" {
+    depends_on = [ module.cpman ]
+    source = "./04-cgns"
+
+    inspection_vpc_id = module.env.inspection_vpc_id
+    inspection_vpc_cidr =module.env.inspection_vpc_cidr
+
 }

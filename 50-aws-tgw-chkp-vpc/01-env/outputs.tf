@@ -35,3 +35,7 @@ output "inspection_vpc_id" {
 output "igw_id" {
   value = aws_internet_gateway.inspection_vpc_igw.id
 }
+
+output "inspection_vpc_cidr" {
+    value = aws_vpc.inspection_vpc.cidr_block
+}
