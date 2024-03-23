@@ -39,3 +39,9 @@ output "igw_id" {
 output "inspection_vpc_cidr" {
     value = aws_vpc.inspection_vpc.cidr_block
 }
+
+output "inspection_vpc_nat_gw_ids" {
+    value =    aws_nat_gateway.inspection_vpc_nat_gw[*].id
+    
+  
+}

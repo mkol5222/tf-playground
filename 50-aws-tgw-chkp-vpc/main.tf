@@ -41,5 +41,5 @@ module "cgns" {
 
     inspection_vpc_id = module.env.inspection_vpc_id
     inspection_vpc_cidr =module.env.inspection_vpc_cidr
-
+    inspection_vpc_nat_gw_ids = module.env.inspection_vpc_nat_gw_ids
 }
