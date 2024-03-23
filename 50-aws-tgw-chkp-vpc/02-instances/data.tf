@@ -26,3 +26,14 @@ data "aws_subnet" "spoke_vpc_b_protected_subnet_a" {
   id = var.spoke_vpc_b_protected_subnet_a_id
 }
 
+data "aws_subnet" "spoke_vpc_a_endpoint_subnet" {
+    count             = 3
+    id = var.spoke_vpc_a_endpoint_subnet_ids[count.index]
+}
+
+data "aws_subnet" "spoke_vpc_b_endpoint_subnet" {
+    count             = 3
+    id = var.spoke_vpc_b_endpoint_subnet_ids[count.index]
+}
+
+data "aws_region" "current" {}
