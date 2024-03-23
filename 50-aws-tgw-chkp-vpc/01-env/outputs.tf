@@ -27,3 +27,11 @@ output "spoke_vpc_b_endpoint_subnet_ids" {
     aws_subnet.spoke_vpc_b_endpoint_subnet[2].id
   ]
 }
+
+output "inspection_vpc_id" {
+    value = aws_vpc.inspection_vpc.id
+}
+
+output "igw_id" {
+  value = aws_internet_gateway.inspection_vpc_igw.id
+}
