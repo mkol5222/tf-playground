@@ -140,7 +140,7 @@ resource "aws_instance" "management-instance" {
   instance_type = var.management_instance_type
   key_name = var.key_name
 
-  #iam_instance_profile = local.use_role == 1 ? (local.pre_role == 1 ? aws_iam_instance_profile.management_instance_profile[0].id : join("", (var.is_gwlb_iam == true ? module.cme_iam_role_gwlb.*.cme_iam_profile_name : module.cme_iam_role.*.cme_iam_profile_name))): ""
+  iam_instance_profile = local.use_role == 1 ? (local.pre_role == 1 ? aws_iam_instance_profile.management_instance_profile[0].id : join("", (var.is_gwlb_iam == true ? module.cme_iam_role_gwlb.*.cme_iam_profile_name : module.cme_iam_role.*.cme_iam_profile_name))): ""
 
   disable_api_termination = var.disable_instance_termination
 
@@ -167,24 +167,24 @@ resource "aws_instance" "management-instance" {
   })
 }
 
-# module "cme_iam_role" {
-#   source = "../cme-iam-role"
-#   providers = {
-#     aws = aws
-#   }
-#   count = local.new_instance_profile_general
+module "cme_iam_role" {
+  source = "../cme-iam-role"
+  # providers = {
+  #   aws = aws
+  # }
+  count = local.new_instance_profile_general
 
-#   sts_roles = var.sts_roles
-#   permissions = var.iam_permissions
-# }
+  sts_roles = var.sts_roles
+  permissions = var.iam_permissions
+}
 
-# module "cme_iam_role_gwlb" {
-#   source = "../cme-iam-role-gwlb"
-#   providers = {
-#     aws = aws
-#   }
-#   count = local.new_instance_profile_gwlb
+module "cme_iam_role_gwlb" {
+  source = "../cme-iam-role-gwlb"
+  # providers = {
+  #   aws = aws
+  # }
+  count = local.new_instance_profile_gwlb
 
-#   sts_roles = var.sts_roles
-#   permissions = var.iam_permissions
-# }
+  sts_roles = var.sts_roles
+  permissions = var.iam_permissions
+}
