@@ -1,0 +1,32 @@
+ aws ec2 describe-route-tables | jq -r '.RouteTables[]|[.RouteTableId,.Tags[0].Value]|@csv'
+
+ aws ec2 describe-route-tables | jq -r '.RouteTables[]|[.RouteTableId,.Tags[0].Value]|@csv' | grep '1a/public'
+ aws ec2 describe-route-tables | jq -r '.RouteTables[]|[.RouteTableId,.Tags[0].Value]|@csv' | grep '1a/tgw'
+
+
+ aws ec2 describe-route-tables | jq -r -c '.RouteTables[]|{id: .RouteTableId, name: .Tags[0].Value}' 
+
+# "rtb-0be57a3b5d1a2f167","inspection-vpc/eu-west-1a/public-subnet-route-table"
+# "rtb-01f1059f189472c1c","inspection-vpc/eu-west-1a/tgw-subnet-route-table"
+
+aws ec2 describe-route-tables | jq -r -c '.RouteTables[]|{id: .RouteTableId, name: .Tags[0].Value}' | jq -r 'select(.name=="inspection-vpc/eu-west-1a/public-subnet-route-table")| .id'
+aws ec2 describe-route-tables | jq -r -c '.RouteTables[]|{id: .RouteTableId, name: .Tags[0].Value}' | jq -r 'select(.name=="inspection-vpc/eu-west-1a/tgw-subnet-route-table")| .id'
+
+
+// gwlb_endpoint1
+
+ aws ec2 describe-vpc-endpoints --query 'VpcEndpoints[?contains(Tags[?Key==`Name`].Value, `gwlb_endpoint1`)]'
+ aws ec2 describe-vpc-endpoints --query 'VpcEndpoints[?contains(Tags[?Key==`Name`].Value, `gwlb_endpoint1`)]'| jq -r '.[0].VpcEndpointId'
+ 
+aws ec2 replace-route --route-table-id rtb-01f1059f189472c1c --destination-cidr-block 0.0.0.0/0 --vpc-endpoint-id vpce-00b6e58acaf14a158;
+aws ec2 replace-route --route-table-id rtb-0be57a3b5d1a2f167 --destination-cidr-block 10.0.0.0/8 --vpc-endpoint-id vpce-00b6e58acaf14a158;
+
+aws ec2 replace-route --route-table-id ${local.tgw_rt_b} --destination-cidr-block 0.0.0.0/0 --vpc-endpoint-id ${local.gwlbe_b};
+aws ec2 replace-route --route-table-id ${local.tgw_rt_c} --destination-cidr-block 0.0.0.0/0 --vpc-endpoint-id ${local.gwlbe_c};
+
+
+aws ec2 create-route --route-table-id ${local.nat_rt_a} --destination-cidr-block ${local.spokes_cidr}--vpc-endpoint-id ${local.gwlbe_a};
+
+
+aws ec2 create-route --route-table-id ${local.nat_rt_b} --destination-cidr-block ${local.spokes_cidr} --vpc-endpoint-id ${local.gwlbe_b};
+aws ec2 create-route --route-table-id ${local.nat_rt_c} --destination-cidr-block ${local.spokes_cidr} --vpc-endpoint-id ${local.gwlbe_c};

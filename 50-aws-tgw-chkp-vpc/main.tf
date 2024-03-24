@@ -42,11 +42,13 @@ module "cgns" {
     inspection_vpc_id = module.env.inspection_vpc_id
     inspection_vpc_cidr =module.env.inspection_vpc_cidr
     inspection_vpc_nat_gw_ids = module.env.inspection_vpc_nat_gw_ids
+    
+   
 
     firewall_subnet_ids = module.env.firewall_subnet_ids
 
 // GWLB
-  enable_cross_zone_load_balancing = true
+  enable_cross_zone_load_balancing = false
     // CME
   management_server = "CP-Management-gwlb-tf"
   configuration_template = "gwlb-configuration"

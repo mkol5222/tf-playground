@@ -113,6 +113,11 @@ resource "aws_iam_instance_profile" "management_instance_profile" {
 }
 
 resource "aws_instance" "management-instance" {
+
+   lifecycle {
+    ignore_changes = all
+  }
+
   depends_on = [
     aws_network_interface.external-eni,
     aws_eip.eip
@@ -134,9 +139,9 @@ resource "aws_instance" "management-instance" {
     encrypted = local.volume_encryption_condition
     kms_key_id = local.volume_encryption_condition ? var.volume_encryption : ""
   }
-  lifecycle {
-    ignore_changes = [ebs_block_device,]
-  }
+  # lifecycle {
+  #   ignore_changes = [ebs_block_device,]
+  # }
   instance_type = var.management_instance_type
   key_name = var.key_name
 

@@ -15,10 +15,15 @@ tf apply -auto-approve
 # CP management console
 ssh admin@34.247.143.157 -i C:\Users\mkoldov\.ssh\azureshell.key
 
+
 # x-chkp-tags	management=CP-Management-gwlb-tf:template=gwlb-configuration:ip-address=private
 autoprov_cfg init AWS -mn CP-Management-gwlb-tf -tn gwlb-configuration -otp WelcomeHome1984 -po Standard -cn cpman -r eu-west-1 -iam -ver R81.20
 
 autoprov_cfg set template -tn gwlb-configuration -ia -ips
+
+watch -d api status
+
+tail -f /var/log/CPcme/cme.log
 
 # mgmt ip 10.255.77.227
 # cplic - required for IPS!
@@ -32,6 +37,9 @@ while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; curl 
 TODO:
 - [ ] enable Management API and provision API user
  -[ ] management license?
-- [ ] timezone 
+- [ ] Gaia timezone 
 - [ ] diagrams
+- [ ] create SSH key with Terraform and add CPMAN login instructions
 - [ ] policy made by Terraform
+- [ ] E-W and Ingress traffic inspection
+- [ ] TF unexpceted replacement - lifecycle / ignore_changes fine tune!

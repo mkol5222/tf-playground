@@ -1,6 +1,8 @@
 
 resource "aws_subnet" "inspection_vpc_cpman_subnet" {
-
+  lifecycle {
+    ignore_changes = all
+  }
   map_public_ip_on_launch = true
   vpc_id                  = var.inspection_vpc_id
   availability_zone       = data.aws_availability_zones.available.names[0]

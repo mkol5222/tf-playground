@@ -46,6 +46,9 @@ resource "aws_security_group" "spoke_vpc_b_host_sg" {
 }
 
 resource "aws_instance" "spoke_vpc_a_host" {
+   lifecycle {
+    ignore_changes = all
+  }
   ami                         = data.aws_ami.amazon-linux-2.id
   subnet_id                   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
   iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
@@ -59,6 +62,10 @@ resource "aws_instance" "spoke_vpc_a_host" {
 }
 
 resource "aws_instance" "spoke_vpc_b_host" {
+   lifecycle {
+    ignore_changes = all
+  }
+
   ami                    = data.aws_ami.amazon-linux-2.id
   subnet_id              = data.aws_subnet.spoke_vpc_b_protected_subnet_a.id
   iam_instance_profile   = aws_iam_instance_profile.instance_profile.name
