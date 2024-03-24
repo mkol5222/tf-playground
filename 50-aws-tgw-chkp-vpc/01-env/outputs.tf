@@ -42,6 +42,8 @@ output "inspection_vpc_cidr" {
 
 output "inspection_vpc_nat_gw_ids" {
     value =    aws_nat_gateway.inspection_vpc_nat_gw[*].id
-    
-  
+}
+
+output "firewall_subnet_ids" {
+  value =     aws_subnet.inspection_vpc_firewall_subnet[*].id
 }
