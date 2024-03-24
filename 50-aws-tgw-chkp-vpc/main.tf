@@ -50,4 +50,21 @@ module "cgns" {
     // CME
   management_server = "CP-Management-gwlb-tf"
   configuration_template = "gwlb-configuration"
+
+  // GWs
+  gateway_name = "cpgwtf"
+  gateway_instance_type = "c5.xlarge"
+  minimum_group_size = 3
+  maximum_group_size = 6
+  gateway_version = "R81.20-BYOL"
+  // openssl passwd -6 "password"
+  gateway_password_hash = "$6$ycLB31kh2cbEDSnk$b1ZMkobMX/RUXmDWKDWnr2fPpWaGyMAZHyjg0tFrggUA6ehd8YglKyj3H0hyYCNQrgzXn89TohVj1qW2l3LoI0"
+  gateway_maintenance_mode_password_hash = "" # For R81.10 and below the gateway_password_hash is used also as maintenance-mode password.
+  ssh_key_name = "azureshell"
+
+  gateway_bootstrap_script = "echo 'this is bootstrap script' > /home/admin/bootstrap.txt"
+  admin_shell = "/bin/bash"
+
+
+  gateway_SICKey = "WelcomeHome1984"
 }
