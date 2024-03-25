@@ -9,7 +9,13 @@ cd /workspaces/tf-playground/50-aws-tgw-chkp-vpc
 
 tf init
 
-tf plan
+# bring credentials - AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN
+
+tf plan -target module.env
+
+# step by step
+tf apply -auto-approve -target module.env
+
 tf apply -auto-approve
 
 # CP management console

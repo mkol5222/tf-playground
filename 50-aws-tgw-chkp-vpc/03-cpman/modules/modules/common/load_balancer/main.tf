@@ -22,6 +22,7 @@ resource "aws_lb_target_group" "lb_target_group" {
     port     =  var.load_balancers_type != "gateway" ? var.health_check_port : 8117
     protocol =  var.load_balancers_type != "gateway" ? var.health_check_protocol : "TCP"
   }
+ # cross_zone_load_balancing = var.cross_zone_load_balancing
 }
 resource "aws_lb_listener" "lb_listener" {
   depends_on = [aws_lb.load_balancer, aws_lb_target_group.lb_target_group]

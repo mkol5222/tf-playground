@@ -53,6 +53,11 @@ resource "aws_route_table" "inspection_vpc_gwlbe_subnet_route_table" {
     # to Internet via NAT gw
     nat_gateway_id = var.inspection_vpc_nat_gw_ids[count.index]
   }
+  # missing path to spokes via TGW!!! TODO
+  #   route {
+  #   cidr_block         = var.super_cidr_block
+  #   transit_gateway_id = aws_ec2_transit_gateway.tgw.id
+  # }
   tags = {
     Name = "inspection-vpc/${data.aws_availability_zones.available.names[count.index]}/gwlbe-subnet-route-table"
   }
