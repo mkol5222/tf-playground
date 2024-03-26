@@ -26,13 +26,13 @@ module "cpha1" {
   frontend_IP_addresses          = [4, 5, 6]
   backend_IP_addresses           = [4, 5, 6]
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPWY0ZWI1NWMwLTdhZGYtNDNiMy05MTkxLWY3MjQzZGMxZWIzNw=="
-  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTBmNTU0NzI2LTkyYjItNDNmYS1hNmFmLTIyMGFiZWI2NDkwZA=="
-  sic_key                        = "WelcomeHome1984"
+ smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTA3NTg3ZjYyLTA0OGQtNGU3Ny1hYTcwLWJmMjE0MWY5ZTQxMA=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTlhODU4ZTMyLWU3YTAtNGQ1NC04MWFjLWEzMDQwNDNhYWZhZg=="
+   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
   vm_os_sku                      = "sg-byol"
-  vm_os_offer                    = "check-point-cg-r8110"
+  vm_os_offer                    = "check-point-cg-r8120"
   os_version                     = "R8110"
   bootstrap_script               = "touch /home/admin/bootstrap.txt; echo 'hello_world' > /home/admin/bootstrap.txt"
   allow_upload_download          = true
@@ -76,8 +76,8 @@ module "cpha2" {
   backend_IP_addresses           = [8,9,10]
 
   admin_password                 = "Welcome@Home#1984"
-  smart_1_cloud_token_a          = ""
-  smart_1_cloud_token_b          = ""
+  smart_1_cloud_token_a          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTA3NTg3ZjYyLTA0OGQtNGU3Ny1hYTcwLWJmMjE0MWY5ZTQxMA=="
+  smart_1_cloud_token_b          = "aHR0cHM6Ly9jbG91ZGluZnJhLWd3LnBvcnRhbC5jaGVja3BvaW50LmNvbS9hcHAvbWFhcy9hcGkvdjEvdGVuYW50LzgxNjNlMGI2LWYyNzktNDdmMy1hMjE2LTNjMjg0YjlhMTUxZC9hY2Nlc3Mta2V5cy8/b3RwPTlhODU4ZTMyLWU3YTAtNGQ1NC04MWFjLWEzMDQwNDNhYWZhZg=="
   sic_key                        = "WelcomeHome1984"
   vm_size                        = "Standard_D3_v2"
   disk_size                      = "110"
