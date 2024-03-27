@@ -4,6 +4,23 @@ module "env" {
   source = "./01-env"
 }
 
+module "routes" {
+  source = "./01-routes"
+  
+  depends_on = [ module.env, module.cgns ]
+
+  inspection_vpc_id = module.env.inspection_vpc_id
+  tgw_subnet_ids = module.env.tgw_subnet_ids
+  inspection_vpc_nat_gw_ids = module.env.inspection_vpc_nat_gw_ids
+  igw_id = module.env.igw_id
+  tgw_id = module.env.tgw_id
+  public_subnet_ids = module.env.public_subnet_ids
+  firewall_subnet_ids = module.env.firewall_subnet_ids
+  gwlbe_subnet_ids = module.cgns.gwlbe_subnet_ids
+
+  gwlbe_ids = module.cgns.gwlbe_ids
+}
+
 module "instances" {
 
   depends_on = [module.env]

@@ -47,3 +47,16 @@ output "inspection_vpc_nat_gw_ids" {
 output "firewall_subnet_ids" {
   value =     aws_subnet.inspection_vpc_firewall_subnet[*].id
 }
+
+output "tgw_subnet_ids" {
+  value =     aws_subnet.inspection_vpc_tgw_subnet[*].id
+}
+
+output "public_subnet_ids" {
+  value =     aws_subnet.inspection_vpc_public_subnet[*].id
+}
+
+output "tgw_id" {
+  value = aws_ec2_transit_gateway.tgw.id
+}
+

@@ -18,6 +18,8 @@ tf plan -target module.env
 # network environment
 tf apply -auto-approve -target module.env
 
+tf apply -auto-approve -target module.routes
+
 # workloads in spokes accessible using SSM
 tf apply -auto-approve -target module.instances
 
