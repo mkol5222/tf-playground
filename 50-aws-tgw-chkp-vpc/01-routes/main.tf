@@ -138,6 +138,7 @@ resource "aws_route_table_association" "inspection_vpc_firewall_subnet_route_tab
 
 
 resource "aws_route_table_association" "inspection_vpc_gwlbe_subnet_route_table_association" {
+  
   count          = 3
   route_table_id = aws_route_table.inspection_vpc_gwlbe_subnet_route_table[count.index].id
   subnet_id      = var.gwlbe_subnet_ids[count.index]

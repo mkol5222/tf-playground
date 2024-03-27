@@ -15,6 +15,9 @@ locals  {
 }
 
 resource "aws_vpc_endpoint" "gwlb_endpoint1" {
+      lifecycle {
+    ignore_changes = all
+  }
   depends_on = [ aws_subnet.inspection_vpc_gwlbe_subnet[0]]
   vpc_id = var.inspection_vpc_id
   vpc_endpoint_type = "GatewayLoadBalancer"
@@ -25,6 +28,9 @@ resource "aws_vpc_endpoint" "gwlb_endpoint1" {
   }
 }
 resource "aws_vpc_endpoint" "gwlb_endpoint2" {
+      lifecycle {
+    ignore_changes = all
+  }
   depends_on = [ aws_subnet.inspection_vpc_gwlbe_subnet[1]]
   vpc_id = var.inspection_vpc_id
   vpc_endpoint_type = "GatewayLoadBalancer"
@@ -35,6 +41,9 @@ resource "aws_vpc_endpoint" "gwlb_endpoint2" {
   }
 }
 resource "aws_vpc_endpoint" "gwlb_endpoint3" {
+    lifecycle {
+    ignore_changes = all
+  }
   depends_on = [ aws_subnet.inspection_vpc_gwlbe_subnet[2]]
   vpc_id = var.inspection_vpc_id
   vpc_endpoint_type = "GatewayLoadBalancer"

@@ -45,10 +45,26 @@ resource "aws_security_group" "spoke_vpc_b_host_sg" {
   }
 }
 
+resource "aws_network_interface" "spoke_vpc_a_host_nic" {
+  subnet_id   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
+  private_ips = ["10.10.10.10"]
+
+  tags = {
+    Name = "spoke_vpc_a_host_nic"
+  }
+}
+
 resource "aws_instance" "spoke_vpc_a_host" {
    lifecycle {
     ignore_changes = all
   }
+
+
+  network_interface {
+    network_interface_id = aws_network_interface.spoke_vpc_a_host_nic.id
+    device_index         = 0
+  }
+
   ami                         = data.aws_ami.amazon-linux-2.id
   subnet_id                   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
   iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
