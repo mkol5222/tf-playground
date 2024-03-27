@@ -14,8 +14,20 @@ tf init
 tf plan -target module.env
 
 # step by step
+
+# network environment
 tf apply -auto-approve -target module.env
 
+# workloads in spokes accessible using SSM
+tf apply -auto-approve -target module.instances
+
+# Check Point Management in Inspection VPC
+tf apply -auto-approve -target module.cpman
+
+# Check Point Security Gateways with GWLB in Inspection VPC
+tf apply -auto-approve -target module.cgns
+
+# full deployment
 tf apply -auto-approve
 
 # CP management console
