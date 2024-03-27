@@ -16,7 +16,7 @@ resource "aws_ec2_transit_gateway_route_table" "spoke_route_table" {
 }
 
 resource "aws_ec2_transit_gateway_route" "tgw-spokes-route" {
-
+  count = var.enable_spoke2spoke_inspection ? 1 : 0
  destination_cidr_block         = "10.0.0.0/8"
  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.inspection_vpc_tgw_attachment.id
  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.spoke_route_table.id

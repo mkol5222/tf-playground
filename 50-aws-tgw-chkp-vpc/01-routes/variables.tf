@@ -22,3 +22,11 @@ variable "tgw_id" {
 variable "public_subnet_ids" {
   
 }
+
+variable "enable_spoke2spoke_inspection" {
+    default = false
+}
+
+variable "enable_egress_inspection" {
+    default = false
+}

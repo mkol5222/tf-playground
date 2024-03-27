@@ -2,11 +2,15 @@
 
 module "env" {
   source = "./01-env"
+
+  enable_spoke2spoke_inspection = var.enable_spoke2spoke_inspection
 }
 
 module "routes" {
   source = "./01-routes"
   
+  enable_egress_inspection = var.enable_egress_inspection
+
   depends_on = [ module.env, module.cgns ]
 
   inspection_vpc_id = module.env.inspection_vpc_id

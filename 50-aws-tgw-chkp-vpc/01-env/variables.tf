@@ -9,3 +9,7 @@ locals {
   spoke_vpc_b_cidr    = cidrsubnet(var.super_cidr_block, 8, 11)
   inspection_vpc_cidr = cidrsubnet(var.super_cidr_block, 8, 255)
 }
+
+variable "enable_spoke2spoke_inspection" {
+    default = false
+}

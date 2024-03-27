@@ -10,28 +10,34 @@
 # tgw_subnet -> NAT gateway (public_subnet) -> IGW -> Internet
 # IGW -> NAT gateway (public_subnet) -> TGW (tgw_subnet)
 
-# with CGNS
+# with CGNS - enable_spoke2spoke_inspection === true
 # tgw_subnet -> GWLBe (gwlbe_subnet) -> NAT gateway (public_subnet) -> IGW -> Internet
 # IGW -> NAT gateway (public_subnet) -> GWLBe (gwlbe_subnet) -> TGW (tgw_subnet)
 
 resource "aws_route_table" "inspection_vpc_tgw_subnet_route_table" {
   count  = 3 //length(data.aws_availability_zones.available.names)
   vpc_id = var.inspection_vpc_id
-  #   route {
-  #   cidr_block     = "0.0.0.0/0"
-  #   # to Internet via NAT gw
-  #   nat_gateway_id = var.inspection_vpc_nat_gw_ids[count.index]
-  # }
-    route {
-    cidr_block     = "0.0.0.0/0"
-    # to Internet via CHKP
-    vpc_endpoint_id = var.gwlbe_ids[count.index]
+
+  dynamic "route" {
+    for_each = var.enable_egress_inspection ? [] : [1]
+    content {
+      cidr_block = "0.0.0.0/0"
+      # to Internet via NAT gw
+      nat_gateway_id = var.inspection_vpc_nat_gw_ids[count.index]
+    }
   }
-  # route {
-  #   cidr_block = "0.0.0.0/0"
-  #   # https://github.com/hashicorp/terraform-provider-aws/issues/16759
-  #   vpc_endpoint_id = element([for ss in tolist(aws_networkfirewall_firewall.inspection_vpc_anfw.firewall_status[0].sync_states) : ss.attachment[0].endpoint_id if ss.attachment[0].subnet_id == aws_subnet.inspection_vpc_firewall_subnet[count.index].id], 0)
-  # }
+
+  dynamic "route" {
+    for_each = var.enable_egress_inspection ? [1] : []
+    content {
+
+
+      cidr_block = "0.0.0.0/0"
+      # to Internet via CHKP
+      vpc_endpoint_id = var.gwlbe_ids[count.index]
+    }
+  }
+
   tags = {
     Name = "inspection-vpc/${data.aws_availability_zones.available.names[count.index]}/tgw-subnet-route-table"
   }
@@ -40,13 +46,13 @@ resource "aws_route_table" "inspection_vpc_tgw_subnet_route_table" {
 resource "aws_route_table" "inspection_vpc_gwlbe_subnet_route_table" {
   count  = 3
   vpc_id = var.inspection_vpc_id
-    route {
-    cidr_block     = "0.0.0.0/0"
+  route {
+    cidr_block = "0.0.0.0/0"
     # to Internet via NAT gw
     nat_gateway_id = var.inspection_vpc_nat_gw_ids[count.index]
   }
-  # missing path to spokes via TGW!!! 
-    route {
+
+  route {
     cidr_block         = var.super_cidr_block
     transit_gateway_id = var.tgw_id
   }
@@ -56,23 +62,30 @@ resource "aws_route_table" "inspection_vpc_gwlbe_subnet_route_table" {
 }
 
 resource "aws_route_table" "inspection_vpc_public_subnet_route_table" {
-  count  = 3// length(data.aws_availability_zones.available.names)
+  count  = 3 // length(data.aws_availability_zones.available.names)
   vpc_id = var.inspection_vpc_id
+  
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id =var.igw_id
-  
+    gateway_id = var.igw_id
+
   }
-  # back to spokes via TGW
-  #  route {
-  #   cidr_block         = var.super_cidr_block
-  #   transit_gateway_id = var.tgw_id
-  # }
+    dynamic "route" {
+      for_each = var.enable_egress_inspection ? [] : [1]
+      content {
+        cidr_block         = var.super_cidr_block
+        transit_gateway_id = var.tgw_id
+      }
+    }
   # back to spokes via CHECKPOINT
-    route {
-    cidr_block         = var.super_cidr_block
-    vpc_endpoint_id = var.gwlbe_ids[count.index]
-  }
+  
+    dynamic "route" {
+      for_each = var.enable_egress_inspection ? [1] : []
+      content {
+      cidr_block      = var.super_cidr_block
+      vpc_endpoint_id = var.gwlbe_ids[count.index]
+      }
+    }
   # route {
   #   cidr_block = var.super_cidr_block
   #   # https://github.com/hashicorp/terraform-provider-aws/issues/16759
@@ -100,9 +113,9 @@ resource "aws_route_table_association" "inspection_vpc_public_subnet_route_table
 
 
 resource "aws_route_table" "inspection_vpc_firewall_subnet_route_table" {
-  depends_on = [ data.aws_availability_zones.available ]
-  count  = 3// length(data.aws_availability_zones.available.names)
-  vpc_id = var.inspection_vpc_id
+  depends_on = [data.aws_availability_zones.available]
+  count      = 3 // length(data.aws_availability_zones.available.names)
+  vpc_id     = var.inspection_vpc_id
   route {
     cidr_block         = var.super_cidr_block
     transit_gateway_id = var.tgw_id
