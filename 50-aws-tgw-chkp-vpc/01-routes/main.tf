@@ -25,7 +25,7 @@ resource "aws_route_table" "inspection_vpc_tgw_subnet_route_table" {
     route {
     cidr_block     = "0.0.0.0/0"
     # to Internet via CHKP
-    nat_gateway_id = var.gwlbe_ids[count.index]
+    vpc_endpoint_id = var.gwlbe_ids[count.index]
   }
   # route {
   #   cidr_block = "0.0.0.0/0"
