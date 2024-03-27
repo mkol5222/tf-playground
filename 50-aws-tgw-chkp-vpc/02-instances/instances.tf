@@ -46,16 +46,16 @@ resource "aws_security_group" "spoke_vpc_b_host_sg" {
 }
 
 resource "aws_network_interface" "spoke_vpc_a_host_nic" {
-  subnet_id   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
-  private_ips = ["10.10.10.10"]
-
+  subnet_id       = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
+  private_ips     = ["10.10.10.10"]
+  security_groups = [aws_security_group.spoke_vpc_a_host_sg.id]
   tags = {
     Name = "spoke_vpc_a_host_nic"
   }
 }
 
 resource "aws_instance" "spoke_vpc_a_host" {
-   lifecycle {
+  lifecycle {
     ignore_changes = all
   }
 
@@ -65,12 +65,12 @@ resource "aws_instance" "spoke_vpc_a_host" {
     device_index         = 0
   }
 
-  ami                         = data.aws_ami.amazon-linux-2.id
-  subnet_id                   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
+  ami = data.aws_ami.amazon-linux-2.id
+  //subnet_id                   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
   iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
   instance_type               = "t3.micro"
   user_data_replace_on_change = true
-  vpc_security_group_ids      = [aws_security_group.spoke_vpc_a_host_sg.id]
+  // vpc_security_group_ids      = [aws_security_group.spoke_vpc_a_host_sg.id]
   tags = {
     Name = "spoke-vpc-a/host"
   }
@@ -79,8 +79,9 @@ resource "aws_instance" "spoke_vpc_a_host" {
 
 
 resource "aws_network_interface" "spoke_vpc_b_host_nic" {
-  subnet_id   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
-  private_ips = ["10.11.10.11"]
+  subnet_id       = data.aws_subnet.spoke_vpc_b_protected_subnet_a.id
+  private_ips     = ["10.11.10.11"]
+  security_groups = [aws_security_group.spoke_vpc_b_host_sg.id]
 
   tags = {
     Name = "spoke_vpc_b_host_nic"
@@ -88,7 +89,7 @@ resource "aws_network_interface" "spoke_vpc_b_host_nic" {
 }
 
 resource "aws_instance" "spoke_vpc_b_host" {
-   lifecycle {
+  lifecycle {
     ignore_changes = all
   }
 
@@ -97,11 +98,11 @@ resource "aws_instance" "spoke_vpc_b_host" {
     device_index         = 0
   }
 
-  ami                    = data.aws_ami.amazon-linux-2.id
-  subnet_id              = data.aws_subnet.spoke_vpc_b_protected_subnet_a.id
-  iam_instance_profile   = aws_iam_instance_profile.instance_profile.name
-  instance_type          = "t3.micro"
-  vpc_security_group_ids = [aws_security_group.spoke_vpc_b_host_sg.id]
+  ami = data.aws_ami.amazon-linux-2.id
+  //subnet_id              = data.aws_subnet.spoke_vpc_b_protected_subnet_a.id
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  instance_type        = "t3.micro"
+
   tags = {
     Name = "spoke-vpc-b/host"
   }

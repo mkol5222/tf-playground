@@ -7,7 +7,7 @@ resource "checkpoint_management_data_center_query" "hosta" {
   query_rules {
     key_type = "tag"
     key      = "Name"
-    values   = ["spoke-vpc-b/host"]
+    values   = ["spoke-vpc-a/host"]
   }
 
   lifecycle {

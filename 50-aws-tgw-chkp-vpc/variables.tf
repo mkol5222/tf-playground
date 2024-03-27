@@ -1,8 +1,8 @@
 
 variable "enable_egress_inspection" {
-    default = false
+    default = true
 }
 
 variable "enable_spoke2spoke_inspection" {
-    default = false
+    default = true
 }
