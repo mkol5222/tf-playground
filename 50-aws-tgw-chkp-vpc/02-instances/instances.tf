@@ -77,9 +77,24 @@ resource "aws_instance" "spoke_vpc_a_host" {
   user_data = file("${path.module}/install-nginx.sh")
 }
 
+
+resource "aws_network_interface" "spoke_vpc_b_host_nic" {
+  subnet_id   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
+  private_ips = ["10.10.11.11"]
+
+  tags = {
+    Name = "spoke_vpc_b_host_nic"
+  }
+}
+
 resource "aws_instance" "spoke_vpc_b_host" {
    lifecycle {
     ignore_changes = all
+  }
+
+  network_interface {
+    network_interface_id = aws_network_interface.spoke_vpc_b_host_nic.id
+    device_index         = 0
   }
 
   ami                    = data.aws_ami.amazon-linux-2.id
