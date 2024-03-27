@@ -80,7 +80,7 @@ resource "aws_instance" "spoke_vpc_a_host" {
 
 resource "aws_network_interface" "spoke_vpc_b_host_nic" {
   subnet_id   = data.aws_subnet.spoke_vpc_a_protected_subnet_a.id
-  private_ips = ["10.10.11.11"]
+  private_ips = ["10.11.10.11"]
 
   tags = {
     Name = "spoke_vpc_b_host_nic"

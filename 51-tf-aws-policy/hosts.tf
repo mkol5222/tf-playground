@@ -6,6 +6,6 @@ resource "checkpoint_management_host" "spoke-a-host" {
 
 resource "checkpoint_management_host" "spoke-b-host" {
     name ="spoke-b-host"
-    ipv4_address = "10.10.11.11"
+    ipv4_address = "10.11.10.11"
     color = "orange"
 }
