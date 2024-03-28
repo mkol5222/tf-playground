@@ -9,3 +9,9 @@ resource "checkpoint_management_host" "spoke-b-host" {
     ipv4_address = "10.11.10.11"
     color = "orange"
 }
+
+resource "checkpoint_management_host" "pat" {
+    name ="pat"
+    ipv4_address = "192.168.10.11"
+    color = "blue"
+}

@@ -25,3 +25,19 @@ resource "checkpoint_management_network" "vpc-inspection" {
   mask_length4    = 16
   ignore_warnings = true
 }
+
+resource "checkpoint_management_network" "brain" {
+      broadcast    = "allow"
+    color        = "orange"
+   
+    mask_length4 = 24
+    name         = "net-brain"
+    nat_settings = {
+        "auto_rule"   = "true"
+        "hide_behind" = "gateway"
+        "install_on"  = "All"
+        "method"      = "hide"
+    }
+    subnet4      = "192.168.77.0"
+    tags         = []
+}
