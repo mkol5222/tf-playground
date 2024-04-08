@@ -88,7 +88,7 @@ https://learn.microsoft.com/en-us/azure/aks/use-network-policies#overview-of-net
 
 ```shell
 # deploy service
-kubectl create deploy web --image nginx --port 80 --replicas 1
+kubectl create deploy web --image nginx --port 80 --replicas 3
 kubectl scale deploy/web --replicas 1
 # connect from service to Internet - get public IP
 
