@@ -1,0 +1,51 @@
+
+@cpserver = {{$dotenv cpserver}}
+@cpuser = {{$dotenv cpuser}}
+@cppass = {{$dotenv cppass}}
+@cpapikey = {{$dotenv cpapikey}}
+
+# https://sc1.checkpoint.com/documents/latest/APIs/#web/login~v1.9.1%20
+
+# Name: REST Client
+# VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+# @name login
+
+POST {{cpserver}}/login
+Content-Type: application/json
+
+{
+  "user" : "{{cpuser}}",
+  "password" : "{{cppass}}"
+}
+
+###
+
+
+
+POST {{cpserver}}/show-hosts
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "limit" : 50,
+  "offset" : 0,
+  "details-level" : "standard"
+}
+
+###
+# @name publish
+POST {{cpserver}}/publish
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{}
+
+###
+POST {{cpserver}}/show-task
+Content-Type: application/json
+X-chkp-sid: {{login.response.body.sid}}
+
+{
+  "task-id" : "{{publish.response.body.task-id}}"
+}

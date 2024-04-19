@@ -49,3 +49,4 @@ module "cpman" {
   serial_console_password_hash   = ""
   maintenance_mode_password_hash = ""
 }
+
