@@ -2,6 +2,10 @@ variable "cpadmin_password" {
     default = "Welcome@Home#1984"
 }
 
+variable "route_through_firewall" {
+  default = false
+}
+
 variable "resource_group_name" {
     default = "52-azure-lab"
 }
