@@ -62,7 +62,7 @@ ssh linux1
  ./scripts/create-reader-sp.sh 
  # configure Azure DC in SmartConsole
 
- # configure CME for VMSS
+ # configure CME for VMSS - use real credentials!!! (example below is revoked RO Az SP)
 autoprov_cfg init Azure -mn mgmt -tn vmss_template -otp WelcomeHome1984 -ver R81.20 -po Standard -cn ctrl -sb f4ad5e85-ec75-4321-8854-ed7eb611f61d -at 01605c2e-84df-4dfc-af6c-4f706350e670 -aci 6d64ad49-fd32-437d-9215-5f79caa9cf10 -acs "xR_8Q~IViRJS5k6D3nu8KDa6gWWQd5BIeP5RNbhG"
 
 autoprov_cfg set template -tn vmss_template -ia -ips
