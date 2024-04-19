@@ -33,7 +33,7 @@ resource "azurerm_route_table" "linux-rt" {
       name                   = "to-internet"
       address_prefix         = "0.0.0.0/0"
       next_hop_type          = "VirtualAppliance"
-      next_hop_in_ip_address = "10.68.11.4"
+      next_hop_in_ip_address = "10.68.202.4"
     }
   }
 

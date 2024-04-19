@@ -13,6 +13,8 @@ cd /workspaces/tf-playground/52-azure-lab
 # deploy
 terraform init
 tf apply -target azurerm_subnet.cpman_subnet
+tf apply -target azurerm_subnet.frontend
+tf apply -target azurerm_subnet.backend -auto-approve
 terraform apply
 
 # ssh access cpman
@@ -53,6 +55,39 @@ tf output -raw linux_ssh_config | tee  ~/.ssh/config
 # should get Ubuntu machine prompt
 ssh linux1
 
+# linux1
+
+
+# CloudGuard Controller
+ ./scripts/create-reader-sp.sh 
+ # configure Azure DC in SmartConsole
+
+ # configure CME for VMSS
+autoprov_cfg init Azure -mn mgmt -tn vmss_template -otp WelcomeHome1984 -ver R81.20 -po Standard -cn ctrl -sb f4ad5e85-ec75-4321-8854-ed7eb611f61d -at 01605c2e-84df-4dfc-af6c-4f706350e670 -aci 6d64ad49-fd32-437d-9215-5f79caa9cf10 -acs "xR_8Q~IViRJS5k6D3nu8KDa6gWWQd5BIeP5RNbhG"
+
+autoprov_cfg set template -tn vmss_template -ia -ips
+
+autoprov_cfg show all
+
+tail -f /var/log/CPcme/cme.log
+
+
+# install netbox
+cd /workspaces/tf-playground/52-azure-lab
+git clone -b release https://github.com/netbox-community/netbox-docker.git
+cd netbox-docker
+tee docker-compose.override.yml <<EOF
+version: '3.4'
+services:
+  netbox:
+    ports:
+      - 8000:8080
+EOF
+docker compose pull
+docker compose up
+
+
 # cleanup - remove SP
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
+az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)
 ```
