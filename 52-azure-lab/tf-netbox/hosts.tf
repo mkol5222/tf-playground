@@ -15,6 +15,8 @@ data "http" "ipam_hosts" {
   }
 }
 
+
+
 locals {
     hosts = jsondecode(data.http.ipam_hosts.body).results
     hosts_map = {
