@@ -103,6 +103,24 @@ curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=net -vvv -H "Authorizat
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=host -vvv -H "Authorization: Token $TOKEN"
 
 
+# backup netbox
+cd /workspaces/tf-playground/52-azure-lab/netbox-docker
+cat env/postgres.env
+# https://docs.netbox.dev/en/stable/administration/replicating-netbox/
+export PGPASSWORD=J5brHrAXFLQSif0K
+docker-compose exec -it postgres pg_dump --username netbox --host localhost netbox  > ../netbox_backup.sql
+head ./netbox_backup.sql
+
+# restore netbox
+cd /workspaces/tf-playground/52-azure-lab/netbox-docker
+cat env/postgres.env
+# https://docs.netbox.dev/en/stable/administration/replicating-netbox/
+export PGPASSWORD=J5brHrAXFLQSif0K
+docker-compose down -v
+docker-compose up -d
+docker-compose exec -it postgres psql --username netbox -c 'create database netbox'
+docker-compose exec -T postgres psql --username netbox netbox < ../netbox_backup.sql
+
 # cleanup - remove SP
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)
