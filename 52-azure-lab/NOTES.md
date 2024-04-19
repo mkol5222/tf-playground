@@ -86,6 +86,22 @@ EOF
 docker compose pull
 docker compose up
 
+# create user
+cd /workspaces/tf-playground/52-azure-lab/netbox-docker
+docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+
+# login and create new API KEY
+# note it: 0d5b4d5f9dacc2937a94627cb26b71e750739ed8
+
+# create tags: net, host
+# create IPAM IP addresses - /32 host and some /n network
+
+# consume IP addresses
+TOKEN=0d5b4d5f9dacc2937a94627cb26b71e750739ed8
+curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/ -vvv -H "Authorization: Token $TOKEN"
+curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=net -vvv -H "Authorization: Token $TOKEN"
+curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=host -vvv -H "Authorization: Token $TOKEN"
+
 
 # cleanup - remove SP
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
