@@ -128,6 +128,7 @@ docker compose up
 # admin / vpn123 in web UI
 
 # cleanup - remove SP
+az ad sp list --all --show-mine -o table
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)
 ```
