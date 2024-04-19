@@ -117,9 +117,15 @@ cat env/postgres.env
 # https://docs.netbox.dev/en/stable/administration/replicating-netbox/
 export PGPASSWORD=J5brHrAXFLQSif0K
 docker-compose down -v
-docker-compose up -d
+docker-compose up # wait for initialization to finish!
+docker-compose stop netbox netbox-housekeeping netbox-worker
+docker-compose ps
+
+docker-compose exec -it postgres psql --username netbox -c 'drop database netbox'
 docker-compose exec -it postgres psql --username netbox -c 'create database netbox'
 docker-compose exec -T postgres psql --username netbox netbox < ../netbox_backup.sql
+docker compose up
+# admin / vpn123 in web UI
 
 # cleanup - remove SP
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
