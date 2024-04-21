@@ -1,6 +1,6 @@
 
 locals {
-    reader_creds = jsondecode(file("${path.module}/reader.json"))
+  reader_creds = jsondecode(file("${path.module}/reader.json"))
 }
 
 

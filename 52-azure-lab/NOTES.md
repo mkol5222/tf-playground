@@ -217,6 +217,42 @@ terraform apply -target module.aks -var route_through_firewall=false -auto-appro
 terraform apply -target module.sa -auto-approve
 terraform output -raw aks_creds | jq . > ./tf-policy/sa.json
 
+# creds for AKS
+
+# our cluster
+az aks list -o table
+az aks get-credentials --admin --resource-group lab-52-aks  --name aksdemo
+kubectl get no
+kubectl get ns
+
+### Disable NAT for traffice from Pods
+
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: azure-ip-masq-agent-config
+  namespace: kube-system
+  labels:
+    component: ip-masq-agent
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: EnsureExists
+data:
+  ip-masq-agent: |-
+    nonMasqueradeCIDRs:
+      - 0.0.0.0/0
+    masqLinkLocal: true
+EOF
+
+
+# some traffic
+kubectl create deploy web --image nginx --replicas 6
+PODS=$(kubectl get po -o name -l app=web)
+for P in $PODS; do echo $P; kubectl exec -it $P -- curl ip.iol.cz/ip/ -m5 -s; echo; done
+
+# via FW
+cd /workspaces/tf-playground/52-azure-lab
+terraform apply -var route_through_firewall=true -auto-approve
 
 # cleanup - remove SP
 cd /workspaces/tf-playground/52-azure-lab
