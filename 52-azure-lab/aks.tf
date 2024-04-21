@@ -25,5 +25,6 @@ locals {
 }
 
 output "aks_creds" {
+    sensitive = true
     value = jsonencode(local.aks_creds)
 }

@@ -215,6 +215,7 @@ while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; done
 # aks
 terraform apply -target module.aks -var route_through_firewall=false -auto-approve
 terraform apply -target module.sa -auto-approve
+terraform output -raw aks_creds | jq . > ./tf-policy/sa.json
 
 
 # cleanup - remove SP
