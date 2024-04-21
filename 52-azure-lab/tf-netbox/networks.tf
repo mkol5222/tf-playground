@@ -8,6 +8,7 @@ resource "checkpoint_management_network" "netbox_network" {
     subnet4 = each.value.subnet4
     mask_length4 = each.value.mask_length4
   
+  ignore_warnings = true
 }
 
 data "http" "ipam_networks" {

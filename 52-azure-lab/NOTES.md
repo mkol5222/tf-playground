@@ -15,9 +15,12 @@ terraform init
 tf apply -target module.vnet -auto-approve
 # sp for CME and CG Controller
 tf apply -target module.reader -auto-approve
+cat tf-policy/reader.json
+# tf apply -target module.reader -auto-approve -replace module.reader.local_file.reader_creds
 # one network exists, modules depending on "existing vnet" will work
 tf apply -target module.cpman -auto-approve
 
+tf apply -target module.linux -auto-approve
 
 # ssh access cpman
 # https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FVirtualMachines
@@ -68,6 +71,9 @@ tf apply -auto-approve -var publish=true
 # API reference
 # https://sc1.checkpoint.com/documents/latest/APIs/#~v1.9.1%20
 
+#  cpman use real IP address!
+ssh admin@23.97.210.27
+
 # cpman
 mgmt_cli -r true show hosts limit 5 offset 0 details-level "standard"  --format json
 # cpman
@@ -80,8 +86,7 @@ mgmt_cli -r true publish
 cd /workspaces/tf-playground/52-azure-lab/api-playground
 # use VScode REST client
 
-# more modules
-terraform apply
+
 
 # access linux VM
 mkdir -p ~/.ssh
@@ -96,11 +101,23 @@ ssh linux1
 
 
 # CloudGuard Controller
- ./scripts/create-reader-sp.sh 
+ # ./scripts/create-reader-sp.sh 
  # configure Azure DC in SmartConsole
 
- # configure CME for VMSS - use real credentials!!! (example below is revoked RO Az SP)
-autoprov_cfg init Azure -mn mgmt -tn vmss_template -otp WelcomeHome1984 -ver R81.20 -po Standard -cn ctrl -sb f4ad5e85-ec75-4321-8854-ed7eb611f61d -at 01605c2e-84df-4dfc-af6c-4f706350e670 -aci 6d64ad49-fd32-437d-9215-5f79caa9cf10 -acs "xR_8Q~IViRJS5k6D3nu8KDa6gWWQd5BIeP5RNbhG"
+cd /workspaces/tf-playground/52-azure-lab
+CLIENT_ID=$(cat ./tf-policy/reader.json | jq -r .client_id)
+CLIENT_SECRET=$(cat ./tf-policy/reader.json | jq -r .client_secret)
+TENANT_ID=$(cat ./tf-policy/reader.json | jq -r .tenant_id)
+SUBSCRIPTION_ID=$(cat ./tf-policy/reader.json | jq -r .subscription_id)
+
+# configure CME for VMSS - use real credentials!!! (example below is revoked RO Az SP)
+# command to run @cpman
+echo autoprov_cfg init Azure -mn mgmt -tn vmss_template -otp WelcomeHome1984 -ver R81.20 -po Azure -cn ctrl -sb $SUBSCRIPTION_ID -at $TENANT_ID -aci $CLIENT_ID -acs "$CLIENT_SECRET"
+
+#  cpman use real IP address!
+CPMAN='52.233.177.94'
+ssh admin@$CPMAN
+# run autoprov_cfg init Azure  ...
 
 autoprov_cfg set template -tn vmss_template -ia -ips
 
@@ -108,11 +125,21 @@ autoprov_cfg show all
 
 tail -f /var/log/CPcme/cme.log
 
+exit # cpman
+
+# deploy VMSS
+cd /workspaces/tf-playground/52-azure-lab
+# deploy VMSS
+terraform apply -target module.vmss -auto-approve
+
+
 
 # install netbox
 cd /workspaces/tf-playground/52-azure-lab
+rm -rf netbox-docker
 git clone -b release https://github.com/netbox-community/netbox-docker.git
 cd netbox-docker
+
 tee docker-compose.override.yml <<EOF
 version: '3.4'
 services:
@@ -123,9 +150,26 @@ EOF
 docker compose pull
 docker compose up
 
-# create user
+# restore netbox
 cd /workspaces/tf-playground/52-azure-lab/netbox-docker
-docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
+cat env/postgres.env
+# https://docs.netbox.dev/en/stable/administration/replicating-netbox/
+export PGPASSWORD=J5brHrAXFLQSif0K
+#docker-compose down -v
+#docker-compose up # wait for initialization to finish!
+docker-compose stop netbox netbox-housekeeping netbox-worker
+docker-compose ps
+
+#docker-compose exec -it postgres psql --username netbox -c 'drop database netbox'
+#docker-compose exec -it postgres psql --username netbox -c 'create database netbox'
+docker-compose exec -T postgres psql --username netbox netbox < ../netbox_backup.sql
+docker compose up
+# admin / vpn123 in web UI
+
+
+# create user
+#cd /workspaces/tf-playground/52-azure-lab/netbox-docker
+#docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 
 # login and create new API KEY
 # note it: 0d5b4d5f9dacc2937a94627cb26b71e750739ed8
@@ -134,11 +178,22 @@ docker compose exec netbox /opt/netbox/netbox/manage.py createsuperuser
 # create IPAM IP addresses - /32 host and some /n network
 
 # consume IP addresses
-TOKEN=0d5b4d5f9dacc2937a94627cb26b71e750739ed8
+TOKEN=3ba6988084555869c69a9ee374190f4da9bb221e
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/ -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=net -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=host -vvv -H "Authorization: Token $TOKEN"
 
+cd /workspaces/tf-playground/52-azure-lab/tf-netbox
+# token
+# netbox_apitoken="3ba6988084555869c69a9ee374190f4da9bb221e"
+code terraform.tfvars
+
+# and management creds.
+cat ../tf-policy/terraform.tfvars
+
+tf init
+tf plan
+tf apply -auto-approve
 
 # backup netbox
 cd /workspaces/tf-playground/52-azure-lab/netbox-docker
@@ -148,21 +203,7 @@ export PGPASSWORD=J5brHrAXFLQSif0K
 docker-compose exec -it postgres pg_dump --username netbox --host localhost netbox  > ../netbox_backup.sql
 head ./netbox_backup.sql
 
-# restore netbox
-cd /workspaces/tf-playground/52-azure-lab/netbox-docker
-cat env/postgres.env
-# https://docs.netbox.dev/en/stable/administration/replicating-netbox/
-export PGPASSWORD=J5brHrAXFLQSif0K
-docker-compose down -v
-docker-compose up # wait for initialization to finish!
-docker-compose stop netbox netbox-housekeeping netbox-worker
-docker-compose ps
 
-docker-compose exec -it postgres psql --username netbox -c 'drop database netbox'
-docker-compose exec -it postgres psql --username netbox -c 'create database netbox'
-docker-compose exec -T postgres psql --username netbox netbox < ../netbox_backup.sql
-docker compose up
-# admin / vpn123 in web UI
 
 # cleanup - remove SP
 az ad sp list --all --show-mine -o table

@@ -10,10 +10,11 @@ locals {
 }
 
 resource "local_file" "reader_creds" {
+
   content  = local.reader_creds
-  filename = "${path.module}/../../tf-policy/reader.json"
+  filename = "${path.module}/../tf-policy/reader.json"
 }
 
 output "file" {
-    value = "${path.module}/../../tf-policy/reader.json"
+    value = "${path.module}/../tf-policy/reader.json"
 }

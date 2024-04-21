@@ -23,6 +23,7 @@ data "http" "ipam_hosts_in_group" {
 }
 
 resource "checkpoint_management_group" "policy_groups" {
+  depends_on =  [checkpoint_management_host.netbox_host]
   for_each = { for group in local.group_tags_list: group => group }
   name = "group_${each.value}"
   members = [ for host in jsondecode(data.http.ipam_hosts_in_group[each.value].body).results: host.description ]
