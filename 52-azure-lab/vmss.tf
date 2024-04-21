@@ -1,17 +1,4 @@
 
-resource "azurerm_subnet" "frontend" {
-    name                 = "frontend"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.vnet.name
-    address_prefixes     = ["10.68.201.0/24"]  
-}
-
-resource "azurerm_subnet" "backend" {
-    name                 = "backend"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.vnet.name
-    address_prefixes     = ["10.68.202.0/24"]  
-}
 
 module "vmss" {
 
@@ -27,8 +14,8 @@ module "vmss" {
   location                       = var.location
   vmss_name                      = "cpvmss"
 
-  vnet_name                      = azurerm_virtual_network.vnet.name
-  vnet_resource_group            = azurerm_resource_group.rg.name
+  vnet_name                      = module.vnet.vnet.name
+  vnet_resource_group            = module.vnet.rg.name
   frontend_subnet_name           = "frontend"
   backend_subnet_name            = "backend"
   backend_lb_IP_address          = 4

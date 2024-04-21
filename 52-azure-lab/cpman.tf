@@ -1,12 +1,7 @@
 
 
 
-resource "azurerm_subnet" "cpman_subnet" {
-    name                 = "${var.resource_group_name}-cpman-subnet"
-    resource_group_name  = azurerm_resource_group.rg.name
-    virtual_network_name = azurerm_virtual_network.vnet.name
-    address_prefixes     = ["10.68.107.0/24"]  
-}
+
 
 # https://github.com/CheckPointSW/CloudGuardIaaS/tree/master/terraform/azure/management-existing-vnet
 module "cpman" {
@@ -22,8 +17,8 @@ module "cpman" {
   mgmt_name                      = "cpman"
   location                       = var.location
 
-  vnet_name                      =  azurerm_virtual_network.vnet.name
-  vnet_resource_group            = azurerm_resource_group.rg.name
+  vnet_name                      =  module.vnet.vnet.name
+  vnet_resource_group            = module.vnet.rg.name
   management_subnet_name         = "${var.resource_group_name}-cpman-subnet" //azurerm_subnet.cpman_subnet.name
 
   subnet_1st_Address             = "10.68.107.4"

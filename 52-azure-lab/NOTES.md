@@ -12,10 +12,12 @@ cd /workspaces/tf-playground/52-azure-lab
 
 # deploy
 terraform init
-tf apply -target azurerm_subnet.cpman_subnet
-tf apply -target azurerm_subnet.frontend
-tf apply -target azurerm_subnet.backend -auto-approve
-terraform apply
+tf apply -target module.vnet -auto-approve
+# sp for CME and CG Controller
+tf apply -target module.reader -auto-approve
+# one network exists, modules depending on "existing vnet" will work
+tf apply -target module.cpman -auto-approve
+
 
 # ssh access cpman
 # https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FVirtualMachines
@@ -45,6 +47,9 @@ mgmt_cli -r true publish
 # api playground - folder 
 cd /workspaces/tf-playground/52-azure-lab/api-playground
 # use VScode REST client
+
+# more modules
+terraform apply
 
 # access linux VM
 mkdir -p ~/.ssh

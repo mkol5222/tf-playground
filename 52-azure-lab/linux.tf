@@ -1,7 +1,7 @@
 module "linux" {
   source = "./linux"
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  vnet_rg = azurerm_resource_group.rg
+  virtual_network_name = module.vnet.vnet.name
+  vnet_rg = module.vnet.rg
 
   myip = local.myip
   route_through_firewall = var.route_through_firewall
