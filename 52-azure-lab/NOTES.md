@@ -278,7 +278,11 @@ terraform destroy -target=module.vmss -auto-approve
 terraform destroy -target=module.cpman -auto-approve
 terraform destroy -target=module.linux -auto-approve
 terraform destroy -target=module.vnet -auto-approve
+terraform destroy -target=module.reader -auto-approve
 terraform destroy -auto-approve
+terraform state list # something left?
+# then
+terraform destroy -auto-approve -target module.cpman.module.network-security-group.azurerm_network_security_group.nsg
 
 az ad sp list --all --show-mine -o table
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
