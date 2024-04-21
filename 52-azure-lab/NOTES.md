@@ -68,6 +68,13 @@ tf init
 tf plan
 tf apply -auto-approve
 tf apply -auto-approve -var publish=true
+tf apply -auto-approve -var install=true
+
+curl -OL https://github.com/mkol5222/my-cp-mgmt-commands/raw/main/releases/linux-amd64/publish
+chmod +x publish
+export CHECKPOINT_SERVER=$CPMAN
+export CHECKPOINT_API_KEY="r0GFcdIDKPIoBhaxqjvJ/A=="
+./publish
 
 # login with SMartDashboard too
 # 
@@ -76,7 +83,7 @@ tf apply -auto-approve -var publish=true
 # https://sc1.checkpoint.com/documents/latest/APIs/#~v1.9.1%20
 
 #  cpman use real IP address!
-ssh admin@23.97.210.27
+ssh admin@$CPMAN
 
 # cpman
 mgmt_cli -r true show hosts limit 5 offset 0 details-level "standard"  --format json
@@ -145,7 +152,8 @@ EOF
 docker compose pull
 docker compose up
 
-# restore netbox
+# wait for netbox init done
+# restore netbox - one more term
 cd /workspaces/tf-playground/52-azure-lab/netbox-docker
 cat env/postgres.env
 # https://docs.netbox.dev/en/stable/administration/replicating-netbox/
@@ -160,7 +168,9 @@ docker-compose ps
 docker-compose exec -T postgres psql --username netbox netbox < ../netbox_backup.sql
 docker compose up
 # admin / vpn123 in web UI
+# generate new token
 
+# feefb124793eda04a1f88ed818323462bbd92ce4
 
 # create user
 #cd /workspaces/tf-playground/52-azure-lab/netbox-docker
@@ -173,7 +183,7 @@ docker compose up
 # create IPAM IP addresses - /32 host and some /n network
 
 # consume IP addresses
-TOKEN=3ba6988084555869c69a9ee374190f4da9bb221e
+TOKEN=feefb124793eda04a1f88ed818323462bbd92ce4
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/ -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=net -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=host -vvv -H "Authorization: Token $TOKEN"
@@ -201,7 +211,7 @@ head ./netbox_backup.sql
 
 # route via VMSS
 cd /workspaces/tf-playground/52-azure-lab
-terraform apply target=module.linux -var route_through_firewall=true -auto-approve
+terraform apply -target=module.linux -var route_through_firewall=true -auto-approve
 
 # access linux VM
 cd /workspaces/tf-playground/52-azure-lab
@@ -218,6 +228,7 @@ while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; done
 
 # aks
 terraform apply -target module.aks -var route_through_firewall=false -auto-approve
+terraform apply -target module.vnet -var route_through_firewall=false -auto-approve
 terraform apply -target module.sa -auto-approve
 terraform output -raw aks_creds | jq . > ./tf-policy/sa.json
 
@@ -251,14 +262,15 @@ EOF
 
 # some traffic
 kubectl create deploy web --image nginx --replicas 6
+kubectl get po -l app=web -o wide
 PODS=$(kubectl get po -o name -l app=web)
-for P in $PODS; do echo $P; kubectl exec -it $P -- curl ip.iol.cz/ip/ -m5 -s; echo; done
+while true; do for P in $PODS; do echo $P; kubectl exec -it $P -- curl ip.iol.cz/ip/ -m5 -s; echo; done; done
 
 # via FW
 cd /workspaces/tf-playground/52-azure-lab
 terraform apply -var route_through_firewall=true -auto-approve
 
-# cleanup - remove SP
+# cleanup - remove infra and SP
 cd /workspaces/tf-playground/52-azure-lab
 terraform destroy -target=module.sa -auto-approve
 terraform destroy -target=module.aks -auto-approve

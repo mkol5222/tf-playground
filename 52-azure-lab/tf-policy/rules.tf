@@ -30,6 +30,9 @@ resource "checkpoint_management_access_rule" "from_net_linux" {
 }
 
 resource "checkpoint_management_access_rule" "from_dc1_app_linux1" {
+
+depends_on = [ checkpoint_management_data_center_query.appLinux1 ]
+
   layer    = "${checkpoint_management_package.package.name} Network"
   position = { above = checkpoint_management_access_rule.from_net_linux.id }
 

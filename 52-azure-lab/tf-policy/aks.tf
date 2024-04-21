@@ -13,7 +13,7 @@ resource "checkpoint_management_kubernetes_data_center_server" "aks" {
 }
 
 resource "checkpoint_management_data_center_query" "AksAppWeb" {
-
+  depends_on = [ checkpoint_management_kubernetes_data_center_server.aks ]
   name         = "app=web"
   data_centers = [checkpoint_management_kubernetes_data_center_server.aks.name]
 
