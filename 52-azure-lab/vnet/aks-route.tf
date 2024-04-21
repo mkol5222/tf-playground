@@ -2,7 +2,7 @@
 resource "azurerm_route_table" "aks-rt" {
   name                          = "aks-rt-tf"
   location                      = azurerm_resource_group.rg.location
-  resource_group_name           = azurerm_resource_group.rg.name
+  resource_group_name           =  azurerm_resource_group.rg.name
   disable_bgp_route_propagation = false
 
 
@@ -47,7 +47,7 @@ resource "azurerm_route_table" "aks-rt" {
 }
 
 resource "azurerm_subnet_route_table_association" "aks-rt-to-subnet" {
-  subnet_id      = var.aks_subnet.id
+  subnet_id      = azurerm_subnet.aks-subnet.id
   route_table_id = azurerm_route_table.aks-rt.id
 }
 
