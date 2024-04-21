@@ -7,6 +7,10 @@ module "reader" {
  tenant_id = var.tenant_id
 }
 
+
+output "reader_creds_file" {
+    value = module.reader.file
+}
 output "reader_client_id" {
   value = module.reader.client_id
 }

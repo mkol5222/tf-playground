@@ -21,14 +21,46 @@ tf apply -target module.cpman -auto-approve
 
 # ssh access cpman
 # https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FVirtualMachines
-# 
+#  use real IP address!
 ssh admin@23.97.210.27
-# cpman cloud init
+# cpman cloud init - look for "cloud_config finished successfully"
 tail -f /var/log/cloud_config.log
 # cpman
 api status
 # cpman API readiness SUCESSFUL ???
 api status | grep 'API readiness test'
+
+# api user
+
+# create api user
+mgmt_cli -r true add administrator name "api" permissions-profile "read write all" authentication-method "api key" --domain 'System Data' --format json
+
+# add api-key
+# https://sc1.checkpoint.com/documents/latest/APIs/index.html#cli/add-api-key~v1.9.1%20
+APIKEYRES=$(mgmt_cli -r true add api-key admin-name "api"  --domain 'System Data' --format json)
+echo "$APIKEYRES" | jq -r '.["api-key"]'
+
+# take note of API key and IP address
+
+# public IP of management
+ifconfig eth0:1
+
+mgmt_cli -r true publish
+
+# for local tf-policy/terraform.tfvars
+cat << EOF 
+cpserver="52.233.177.94"
+cpapikey="43x5Adw//rRLAidUZVPMzQ=="
+EOF
+
+# logout and continue with policy
+exit
+cd /workspaces/tf-playground/52-azure-lab/tf-policy
+
+tf init
+tf plan
+tf apply -auto-approve
+tf apply -auto-approve -var publish=true
 
 # login with SMartDashboard too
 # 
