@@ -88,16 +88,7 @@ cd /workspaces/tf-playground/52-azure-lab/api-playground
 
 
 
-# access linux VM
-mkdir -p ~/.ssh
-tf output -raw linux_ssh_key > ~/.ssh/linux1.key
-chmod og= ~/.ssh/linux1.key
-tf output -raw linux_ssh_config
-tf output -raw linux_ssh_config | tee  ~/.ssh/config
-# should get Ubuntu machine prompt
-ssh linux1
 
-# linux1
 
 
 # CloudGuard Controller
@@ -204,8 +195,36 @@ docker-compose exec -it postgres pg_dump --username netbox --host localhost netb
 head ./netbox_backup.sql
 
 
+# route via VMSS
+cd /workspaces/tf-playground/52-azure-lab
+terraform apply target=module.linux -var route_through_firewall=true -auto-approve
+
+# access linux VM
+cd /workspaces/tf-playground/52-azure-lab
+mkdir -p ~/.ssh
+tf output -raw linux_ssh_key > ~/.ssh/linux1.key
+chmod og= ~/.ssh/linux1.key
+tf output -raw linux_ssh_config
+tf output -raw linux_ssh_config | tee  ~/.ssh/config
+# should get Ubuntu machine prompt
+ssh linux1
+
+# linux1
+while true; do curl -s -m1 ip.iol.cz/ip/; echo; ping -c1 1.1.1.1; sleep 3; done
+
+# aks
+terraform apply -target module.aks -var route_through_firewall=false -auto-approve
+terraform apply -target module.sa -auto-approve
+
 
 # cleanup - remove SP
+cd /workspaces/tf-playground/52-azure-lab
+terraform destroy -target=module.vmss -auto-approve
+terraform destroy -target=module.cpman -auto-approve
+terraform destroy -target=module.linux -auto-approve
+terraform destroy -target=module.vnet -auto-approve
+terraform destroy -auto-approve
+
 az ad sp list --all --show-mine -o table
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)

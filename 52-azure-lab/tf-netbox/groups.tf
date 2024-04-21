@@ -27,6 +27,8 @@ resource "checkpoint_management_group" "policy_groups" {
   for_each = { for group in local.group_tags_list: group => group }
   name = "group_${each.value}"
   members = [ for host in jsondecode(data.http.ipam_hosts_in_group[each.value].body).results: host.description ]
+
+  tags = ["netbox"]
 }
 
 locals {

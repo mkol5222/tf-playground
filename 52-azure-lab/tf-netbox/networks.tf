@@ -7,7 +7,7 @@ resource "checkpoint_management_network" "netbox_network" {
     name = "net_${each.key}"
     subnet4 = each.value.subnet4
     mask_length4 = each.value.mask_length4
-  
+    tags = ["netbox"]
   ignore_warnings = true
 }
 
