@@ -3,11 +3,11 @@ variable "location" {
 }
 
 variable "resource_group_name" {
-  default = "aks-sa-rg"
+  default = "lab-52-aks"
 }
 
 variable "aks_name" {
-  default = "aks-sa-cluster"
+  default = "aksdemo"
 }
 
 variable "myip" {
