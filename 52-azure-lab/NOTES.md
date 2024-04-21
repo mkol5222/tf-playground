@@ -25,7 +25,11 @@ tf apply -target module.linux -auto-approve
 # ssh access cpman
 # https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Compute%2FVirtualMachines
 #  use real IP address!
-ssh admin@23.97.210.27
+
+az vm list-ip-addresses  -o table
+
+CPMAN=13.69.30.89
+ssh admin@$CPMAN
 # cpman cloud init - look for "cloud_config finished successfully"
 tail -f /var/log/cloud_config.log
 # cpman
@@ -267,4 +271,6 @@ terraform destroy -auto-approve
 az ad sp list --all --show-mine -o table
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)
+# none left?
+az ad sp list --all --show-mine -o table
 ```

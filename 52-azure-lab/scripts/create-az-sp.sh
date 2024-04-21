@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export SPNAME='52-azure-lab'
+export SPNAME='52-azure-lab-b'
 
 # create and note deployment credentials, where relevant
 SUBSCRIPTION_ID=$(az account list -o json | jq -r '.[]|select(.isDefault)|.id')
