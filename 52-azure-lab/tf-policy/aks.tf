@@ -11,3 +11,15 @@ resource "checkpoint_management_kubernetes_data_center_server" "aks" {
   ignore_warnings    = true
   unsafe_auto_accept = true
 }
+
+resource "checkpoint_management_data_center_query" "AksAppWeb" {
+
+  name         = "app=web"
+  data_centers = [checkpoint_management_kubernetes_data_center_server.aks.name]
+
+  query_rules {
+    key_type = "tag"
+    key      = "app"
+    values   = ["web"]
+  }
+}

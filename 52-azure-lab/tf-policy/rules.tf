@@ -90,3 +90,34 @@ resource "checkpoint_management_access_rule" "from_net_aks" {
     type                    = "Log"
   }
 }
+
+resource "checkpoint_management_access_rule" "from_deploy_web" {
+  layer = "${checkpoint_management_package.package.name} Network"
+  //position = { above = checkpoint_management_access_rule.rule900.id }
+  position = { above = checkpoint_management_access_rule.from_net_aks.id }
+  name     = "from app=web deployment"
+
+   source = [checkpoint_management_data_center_query.AksAppWeb.name]
+
+  enabled = true
+
+  destination        = ["Any"]
+  destination_negate = false
+
+  service        = ["Any"]
+  service_negate = false
+
+  action = "Accept"
+  action_settings = {
+    enable_identity_captive_portal = false
+  }
+
+  track = {
+    accounting              = false
+    alert                   = "none"
+    enable_firewall_session = true
+    per_connection          = true
+    per_session             = true
+    type                    = "Log"
+  }
+}
