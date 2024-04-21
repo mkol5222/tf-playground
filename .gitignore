@@ -37,3 +37,4 @@ fingerprints.json
 sid.json
 04-import/imported-nets.tf
 ./12-cp-tf-repo/CloudGuardIaaS/
+52-azure-lab/tf-policy/reader.json

@@ -1,6 +1,9 @@
 
+data "azuread_client_config" "current" {}
+
 resource "azuread_application" "cgns-reader" {
-  display_name     = "cgns-reader-lab52"
+  display_name     = "cgns-reader-lab52b"
+   owners           = [data.azuread_client_config.current.object_id]
 }
 
 resource "azuread_application_password" "cgns-reader-key" {
@@ -11,6 +14,7 @@ resource "azuread_application_password" "cgns-reader-key" {
 
 resource "azuread_service_principal" "cgns-reader-sp" {
   application_id = azuread_application.cgns-reader.object_id
+  owners           = [data.azuread_client_config.current.object_id]
 }
 
 
