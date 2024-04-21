@@ -36,11 +36,11 @@ api status | grep 'API readiness test'
 # api user
 
 # create api user
-mgmt_cli -r true add administrator name "api" permissions-profile "read write all" authentication-method "api key" --domain 'System Data' --format json
+mgmt_cli -r true add administrator name "cpapi" permissions-profile "read write all" authentication-method "api key" --domain 'System Data' --format json
 
 # add api-key
 # https://sc1.checkpoint.com/documents/latest/APIs/index.html#cli/add-api-key~v1.9.1%20
-APIKEYRES=$(mgmt_cli -r true add api-key admin-name "api"  --domain 'System Data' --format json)
+APIKEYRES=$(mgmt_cli -r true add api-key admin-name "cpapi"  --domain 'System Data' --format json)
 echo "$APIKEYRES" | jq -r '.["api-key"]'
 
 # take note of API key and IP address
