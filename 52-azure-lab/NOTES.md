@@ -256,6 +256,8 @@ terraform apply -var route_through_firewall=true -auto-approve
 
 # cleanup - remove SP
 cd /workspaces/tf-playground/52-azure-lab
+terraform destroy -target=module.sa -auto-approve
+terraform destroy -target=module.aks -auto-approve
 terraform destroy -target=module.vmss -auto-approve
 terraform destroy -target=module.cpman -auto-approve
 terraform destroy -target=module.linux -auto-approve
