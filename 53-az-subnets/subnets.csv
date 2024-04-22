@@ -1,0 +1,6 @@
+name,cidr,vendor,app,tier
+app1-web,10.68.101.0/24,vendorA,app1,web
+app1-back,10.68.102.0/24,vendorA,app1,back
+app2-front,10.68.111.0/24,vendorA,app2,front
+app2-back,10.68.112.0/24,vendorA,app2,back
+appZ-public,10.68.121.0/24,vendorB,appZ,public
