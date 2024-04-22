@@ -28,7 +28,7 @@ tf apply -target module.linux -auto-approve
 
 az vm list-ip-addresses  -o table
 
-CPMAN=13.69.30.89
+CPMAN=172.211.20.138
 ssh admin@$CPMAN
 # cpman cloud init - look for "cloud_config finished successfully"
 tail -f /var/log/cloud_config.log
@@ -56,8 +56,8 @@ mgmt_cli -r true publish
 
 # for local tf-policy/terraform.tfvars
 cat << EOF 
-cpserver="52.233.177.94"
-cpapikey="43x5Adw//rRLAidUZVPMzQ=="
+cpserver="172.211.20.138"
+cpapikey="Byri7LHJrhBB2Tb3GATqqw=="
 EOF
 
 # logout and continue with policy
@@ -183,7 +183,7 @@ docker compose up
 # create IPAM IP addresses - /32 host and some /n network
 
 # consume IP addresses
-TOKEN=feefb124793eda04a1f88ed818323462bbd92ce4
+TOKEN=3ba6988084555869c69a9ee374190f4da9bb221e
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/ -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=net -vvv -H "Authorization: Token $TOKEN"
 curl -s http://127.0.0.1:8000/api/ipam/ip-addresses/?tag=host -vvv -H "Authorization: Token $TOKEN"
@@ -285,7 +285,7 @@ terraform state list # something left?
 terraform destroy -auto-approve -target module.cpman.module.network-security-group.azurerm_network_security_group.nsg
 
 az ad sp list --all --show-mine -o table
-az ad sp delete --id $(az ad sp list --display-name 52-azure-lab --query "[].{id:appId}" -o tsv)
+az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-c --query "[].{id:appId}" -o tsv)
 az ad sp delete --id $(az ad sp list --display-name 52-azure-lab-ro --query "[].{id:appId}" -o tsv)
 # none left?
 az ad sp list --all --show-mine -o table

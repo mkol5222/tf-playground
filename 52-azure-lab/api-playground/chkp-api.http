@@ -21,7 +21,17 @@ Content-Type: application/json
 
 ###
 
+# @name login
 
+POST {{cpserver}}/login
+Content-Type: application/json
+
+{
+  "user" : "{{cpuser}}",
+  "password" : "{{cppass}}"
+}
+
+###
 
 POST {{cpserver}}/show-hosts
 Content-Type: application/json
