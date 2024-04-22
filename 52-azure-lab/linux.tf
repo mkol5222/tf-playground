@@ -8,15 +8,3 @@ module "linux" {
 
 }
 
-output "linux_ssh_ip" {
-  value = module.linux.ssh_ip
-}
-
-output "linux_ssh_key" {
-    sensitive = true
-    value = module.linux.ssh_key
-}
-
-output "linux_ssh_config" {
-  value = module.linux.ssh_config
-}
