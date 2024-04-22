@@ -21,4 +21,7 @@ chmod og= ~/.ssh/vm.key
 VMIP=20.73.155.99
 ssh -i ~/.ssh/vm.key azureuser@$VMIP
 
+
+# back in codespace
+terraform destroy -auto-approve
 ```
