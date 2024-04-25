@@ -12,6 +12,8 @@ cd /workspaces/tf-playground/54-appsec-az-vm
 cd tfstate
 tf init
 tf apply -auto-approve
+# see sa params for tfstate:
+tf output -raw tfstate_vars
 cd ..
 # copy tfstate parameters to provider.tf
 
