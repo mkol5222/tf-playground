@@ -21,3 +21,6 @@ variable "appsec_subnet_cird" {
 variable "vm_name" {
     default = "appsecvm"
 }
+
+
+
