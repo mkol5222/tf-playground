@@ -31,4 +31,10 @@ chmod og= ~/.ssh/appsecvm.key
 tf output -raw ssh_config | tee -a ~/.ssh/config
 cat ~/.ssh/config
 ssh appsecvm -v
+
+# cleanup
+cd /workspaces/tf-playground/54-appsec-az-vm
+tf destroy -auto-approve
+cd /workspaces/tf-playground/54-appsec-az-vm/tfstate
+tf destroy -auto-approve
 ```
