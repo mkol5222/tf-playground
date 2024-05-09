@@ -56,7 +56,7 @@ resource "oci_core_instance" "vm" {
   create_vnic_details {
     assign_private_dns_record = "true"
     assign_public_ip          = "true" # this instance has a Public IP
-    hostname_label            = "oracle-arm"
+    hostname_label            = "u1"
     subnet_id                 = oci_core_subnet.subnet_0.id
   }
 
