@@ -28,7 +28,7 @@ tf apply -target module.linux -auto-approve
 
 az vm list-ip-addresses  -o table
 
-CPMAN=172.211.20.138
+CPMAN=52.174.42.226 
 ssh admin@$CPMAN
 # cpman cloud init - look for "cloud_config finished successfully"
 tail -f /var/log/cloud_config.log
@@ -48,6 +48,7 @@ APIKEYRES=$(mgmt_cli -r true add api-key admin-name "cpapi"  --domain 'System Da
 echo "$APIKEYRES" | jq -r '.["api-key"]'
 
 # take note of API key and IP address
+#  CLydc/9128x3rgToKTsIrQ==
 
 # public IP of management
 ifconfig eth0:1
@@ -55,9 +56,9 @@ ifconfig eth0:1
 mgmt_cli -r true publish
 
 # for local tf-policy/terraform.tfvars
-cat << EOF 
-cpserver="172.211.20.138"
-cpapikey="Byri7LHJrhBB2Tb3GATqqw=="
+cat << EOF | tee tf-policy/terraform.tfvars
+cpserver="52.174.42.226"
+cpapikey="CLydc/9128x3rgToKTsIrQ=="
 EOF
 
 # logout and continue with policy
@@ -259,6 +260,7 @@ data:
     masqLinkLocal: true
 EOF
 
+# there is also XFF-AKS.md ...
 
 # some traffic
 kubectl create deploy web --image nginx --replicas 6

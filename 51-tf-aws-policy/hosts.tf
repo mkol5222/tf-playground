@@ -15,3 +15,23 @@ resource "checkpoint_management_host" "pat" {
     ipv4_address = "192.168.10.11"
     color = "blue"
 }
+
+resource "checkpoint_management_host" "mat" {
+    name ="mat"
+    ipv4_address = "192.168.10.99"
+    color = "orange"
+}
+
+resource "checkpoint_management_host" "cpobj" {
+    color        = "blue"
+  
+    ipv4_address = "1.2.3.3"
+    name         = "cpobj"
+    nat_settings = {
+        "auto_rule"   = "true"
+        "hide_behind" = "gateway"
+        "install_on"  = "All"
+        "method"      = "hide"
+    }
+    tags         = []
+}
