@@ -44,3 +44,4 @@ reader.json
 sa.json
 52-azure-lab/tf-policy/publish
 50-aws-tgw-chkp-vpc/.env
+.DS_Store
