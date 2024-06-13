@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name="tfstate-4ylj8k"
-    storage_account_name="chpktfstatestorage4ylj8k"
-    container_name="tfstatecontainer"
-    key="terraform.tfstate"
+resource_group_name="tfstate-4ylj8k"
+storage_account_name="chpktfstatestorage4ylj8k"
+container_name="tfstatecontainer"
+key="terraform.tfstate"
   }
 }
 
