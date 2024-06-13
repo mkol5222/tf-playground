@@ -141,6 +141,77 @@ and server(socat) should receive test log line:
 <14>1 2024-06-13T12:24:06.087644+00:00 Checkpoint Eventforwarding-42eea5a9-6f8d-4582-95b9-0fbca476 1 - - Checkpoint Event-Forwarding connectivity test
 ```
 
+Lets replace ad-hoc socat receiver with permanent solution - telegraf (metrics and logs processor from InfluxData).
+
+```shell
+# CODESPACE: back to logexporter VM
+ssh logexporter
+
+# logexporter: install telegraf
+sudo apt update; sudo apt install telegraf -y
+
+# copy certs
+sudo cp ~/ca/ca.pem /etc/telegraf/
+sudo cp ~/ca/server.key /etc/telegraf/
+sudo cp ~/ca/server.crt /etc/telegraf/
+sudo chmod 644 /etc/telegraf/ca.pem
+sudo chmod 644 /etc/telegraf/server.key
+sudo chmod 644 /etc/telegraf/server.crt
+
+# logexporter: test with minimal config
+cat << EOF | tee ~/telegraf-minimal.conf
+  [[outputs.file]]
+    files = ["stdout"]
+
+  [[inputs.socket_listener]]
+    service_address = "tcp://:6514"
+    tls_cert = "/etc/telegraf/server.crt"
+    tls_key  = "/etc/telegraf/server.key"
+    ## Enables client authentication if set.
+    tls_allowed_cacerts = ["/etc/telegraf/ca.pem"]
+    data_format = "value"
+    data_type = "string"
+EOF
+
+# logexporter: start it
+telegraf --config ~/telegraf-minimal.conf --debug
+
+# now revisit Infinity Portal / Export Events
+# edit destination and under Certificates click Test connectivity again
+# you should receive log into telegraf
+
+
+# logexporter: test with minimal config as service
+# notice logging to /var/log/telegraf/portal.log
+sudo touch /var/log/telegraf/portal.log
+sudo chownm _telegraf:_telegraf  /var/log/telegraf/portal.log
+
+cat << EOF | sudo tee /etc/telegraf/telegraf.conf
+  [[outputs.file]]
+    files = ["/var/log/telegraf/portal.log"]
+
+  [[inputs.socket_listener]]
+    service_address = "tcp://:6514"
+    tls_cert = "/etc/telegraf/server.crt"
+    tls_key  = "/etc/telegraf/server.key"
+    ## Enables client authentication if set.
+    tls_allowed_cacerts = ["/etc/telegraf/ca.pem"]
+    data_format = "value"
+    data_type = "string"
+EOF
+
+# run as service
+sudo  systemctl stop telegraf
+sudo  systemctl start telegraf
+sudo  systemctl status telegraf
+sudo journalctl --no-pager -u telegraf
+
+# logexporter: what is coming
+sudo tail -f /var/log/telegraf/out.log
+# test connectivity from portal again
+```
+
+
 ```shell
 # cleanup
 cd /workspaces/tf-playground/57-logexporter
