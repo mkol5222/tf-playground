@@ -1,4 +1,4 @@
-# Azure VM with AppSec on MicroK8S
+# Logexporter from Security Management and Infinity Portal
 
 ```shell
 # login to Az
@@ -47,7 +47,7 @@ cd; mkdir -p ca; cd ca
 # logexporter: generate CA key ca.ket
 openssl genrsa -out ca.key 2048
 # logexporter: and certificate ca.pem
-openssl req -x509 -new -nodes -key ca.key -sha256 -days 825 -out ca.pem -subj "/O=ChkpLab/OU=demo/CN=ca"
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 825 -out ca.pem -subj "/C=US/ST=TX/L=test/O=TestCert/CN=ca"
 # logexporter: check certificate
 openssl x509 -in ca.pem -noout -text | grep CN
 
@@ -57,7 +57,7 @@ openssl genrsa -out server.key 2048
 # logexporter: server public IP
 export SERVERIP=$(curl -s ip.iol.cz/ip/); echo "Server IP is ${SERVERIP}"
 # logexporter: server.crt via CSR
-openssl req -new -key server.key -out server.csr -subj "/O=ChkpLab/OU=demo/CN=${SERVERIP}"
+openssl req -new -key server.key -out server.csr -subj "/C=US/ST=TX/L=test/O=TestCert/CN=${SERVERIP}"
 # logexporter: sign server.crt
 openssl x509 -req -in server.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out server.crt -days 825 -sha256
 # logexporter: check subject
@@ -131,6 +131,14 @@ ssh logexporter
 cd; cd ca
 socat - OPENSSL-LISTEN:6514,verify=0,cert=server.crt,key=server.key,cafile=ca.pem
 
+```
+
+Portal confirms connection success, if it works:
+![alt text](image-1.png)
+
+and server(socat) should receive test log line:
+```
+<14>1 2024-06-13T12:24:06.087644+00:00 Checkpoint Eventforwarding-42eea5a9-6f8d-4582-95b9-0fbca476 1 - - Checkpoint Event-Forwarding connectivity test
 ```
 
 ```shell
