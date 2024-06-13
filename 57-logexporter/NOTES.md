@@ -184,7 +184,7 @@ telegraf --config ~/telegraf-minimal.conf --debug
 # logexporter: test with minimal config as service
 # notice logging to /var/log/telegraf/portal.log
 sudo touch /var/log/telegraf/portal.log
-sudo chownm _telegraf:_telegraf  /var/log/telegraf/portal.log
+sudo chown _telegraf:_telegraf  /var/log/telegraf/portal.log
 
 cat << EOF | sudo tee /etc/telegraf/telegraf.conf
   [[outputs.file]]
@@ -204,7 +204,7 @@ EOF
 sudo  systemctl stop telegraf
 sudo  systemctl start telegraf
 sudo  systemctl status telegraf
-sudo journalctl --no-pager -u telegraf
+sudo journalctl --no-pager -f -u telegraf
 
 # logexporter: what is coming
 sudo tail -f /var/log/telegraf/out.log
