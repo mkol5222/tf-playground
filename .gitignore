@@ -45,3 +45,6 @@ sa.json
 52-azure-lab/tf-policy/publish
 50-aws-tgw-chkp-vpc/.env
 .DS_Store
+57-logexporter/portal.csr
+57-logexporter/portal.crt
+57-logexporter/ca.pem
