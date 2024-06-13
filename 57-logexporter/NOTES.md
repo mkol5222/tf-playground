@@ -188,7 +188,7 @@ sudo chown _telegraf:_telegraf  /var/log/telegraf/portal.log
 
 cat << EOF | sudo tee /etc/telegraf/telegraf.conf
   [[outputs.file]]
-    files = ["/var/log/telegraf/portal.log"]
+    files = ["stdout","/var/log/telegraf/portal.log"]
 
   [[inputs.socket_listener]]
     service_address = "tcp://:6514"
