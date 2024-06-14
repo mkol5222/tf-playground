@@ -183,12 +183,14 @@ cat << EOF | tee ~/telegraf-cp-json-geoip3.conf
 #     timestamp_format = "unix_ms"
 
 [[processors.execd]]
+order=1
 command = ["geoip", "--config", "/etc/geoip.conf"]
 
 
 
 # add numeric mertic to be counted later
 [[processors.starlark]]
+  order=2
   source = '''
 def apply(metric):
     metric.fields["ip"] = 1
@@ -196,6 +198,7 @@ def apply(metric):
   '''
 
 [[processors.converter]]
+  order=3
   [processors.converter.fields]
    tag = ["asn"]
 
@@ -211,6 +214,8 @@ def apply(metric):
 #   data_source_name = "file:///tmp/a.sqlite"
 EOF
 
+sudo systemctl stop telegraf
+sudo telegraf --config /home/azureuser/telegraf-cp-json-geoip3.conf --debug
 
 sudo cp ~/telegraf-cp-json-geoip3.conf /etc/telegraf/telegraf.conf
 sudo systemctl restart telegraf
