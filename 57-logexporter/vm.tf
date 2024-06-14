@@ -104,7 +104,7 @@ resource "azurerm_network_security_group" "nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "6514"
+    destination_port_range     = "6514-6550"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
